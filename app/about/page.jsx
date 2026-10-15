@@ -1,4 +1,5 @@
 import { Top, Strip, Corner } from '../Chrome';
+import { record } from '../site';
 
 export const metadata = { title: 'About · BlackMatter' };
 
@@ -8,11 +9,22 @@ export default function About() {
       <Top current="/about/" />
       <section className="relative px-4 py-12 md:py-16">
         <Corner />
-        <div className="prose relative z-[1]">
-          <h1 className="display page-title mb-8">About</h1>
-          <p>BlackMatter is an independent technology consultancy based in Yellowknife, Northwest Territories. It is built on more than twenty years of systems, security and infrastructure work inside federal policing and territorial government, where downtime was not an option and the nearest spare part was a flight away.</p>
-          <p>That background shapes how we work. We plan for failure before it happens, we write things down so the next person can run them, and we favour solutions that hold up in small teams with long supply lines. We have worked in nearly every community in the territory and understand what the North asks of its technology.</p>
-          <p>We are rooted here. Our principal has served more than a decade on not-for-profit boards in Yellowknife, and the work we take on is measured by what it leaves behind for the people who live and work in the North.</p>
+        <div className="relative z-[1]">
+          <div className="prose">
+            <h1 className="display page-title mb-8">About</h1>
+            <p>BlackMatter is an independent technology consultancy in Yellowknife, Northwest Territories. It exists for one kind of client: an organization with a clear need, the backing to meet it, and no appetite for doing it twice.</p>
+            <p>The practice behind it is twenty years inside federal policing and territorial government systems, where the radio network could not go down, the nearest spare part was a flight away, and the evidence had to be recoverable. That work left three habits. Capture the requirement before touching anything. Build what holds without a technician standing beside it. Write it down so the next person can run it.</p>
+            <p>We measure an engagement by whether you need to call us again. The aim is that you do not.</p>
+          </div>
+          <h2 className="display text-[clamp(28px,4vw,44px)] mt-16 mb-6">The record</h2>
+          <ol className="ledger record list-none p-0 max-w-[880px]">
+            {record.map((r, i) => (
+              <li key={i}>
+                <span className="label n">{String(i + 1).padStart(2, '0')}</span>
+                <span className="r">{r}</span>
+              </li>
+            ))}
+          </ol>
         </div>
       </section>
       <Strip />

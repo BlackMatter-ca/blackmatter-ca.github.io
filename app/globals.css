@@ -110,6 +110,10 @@
 .ledger a { color: inherit; text-decoration: none; }
 .ledger a:hover { color: var(--accent); }
 
+/* the record: numbered, one column of prose */
+.ledger.record li { grid-template-columns: 48px 1fr; }
+.ledger.record .r { color: var(--ink-2); font-size: 17px; line-height: 26px; }
+
 /* load: the wordmark is uncovered left to right as the grit lifts off it */
 .dust { position: relative; }
 .wordmark { display: block; width: 100%; height: auto; color: var(--ink); }
