@@ -21,7 +21,7 @@ export default function Home() {
   return (
     <>
       <header className="wrap">
-        <img className="mark" src="/logos/blackmatter-logo-on-dark.svg" alt="BlackMatter" />
+        <img className="mark" src="/logos/blackmatter-logo-dark.svg" alt="BlackMatter" />
       </header>
       <main className="wrap">
         <div className="hero">
