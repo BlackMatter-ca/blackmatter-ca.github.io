@@ -1,5 +1,5 @@
 import { Top, Strip, Corner } from '../Chrome';
-import { services, process, exclusions } from '../site';
+import { services, process } from '../site';
 
 export const metadata = { title: 'Services · BlackMatter' };
 
@@ -31,8 +31,6 @@ export default function Services() {
               </li>
             ))}
           </ol>
-          <h2 className="display text-[clamp(28px,4vw,44px)] mt-20 mb-6">What we do not do</h2>
-          <p className="lede">{exclusions}</p>
         </div>
       </section>
       <Strip />

@@ -32,7 +32,6 @@ export const process = [
   { title: 'Handover', body: 'Documentation your own team can run, training where it is needed, and a clean exit. The measure of the work is that you do not need to call us again.' },
 ];
 
-export const exclusions = 'BlackMatter is not a help desk, a web agency or a retainer for whatever comes up. We do not fix email, browsers or printers, and we do not build websites. If a request falls outside the services above we will say so, and where we can, point you to someone who does that work.';
 
 export const record = [
   'Led a backup and recovery program for more than eighty servers across three provinces, from business case through bare-metal recovery testing, on a purchase over two hundred thousand dollars.',
