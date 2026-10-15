@@ -10,7 +10,7 @@ const dinEmbossed = localFont({ src: './fonts/alte-din-1451-mittelschrift-geprae
 const mono = JetBrains_Mono({ subsets: ['latin'], weight: ['400'], variable: '--font-jetbrains' });
 
 export const metadata = {
-  title: 'BlackMatter',
+  title: { default: 'BlackMatter', template: '%s' },
   description: 'A consultancy. Yellowknife, Northwest Territories.',
   icons: { icon: '/icon.svg' },
 };

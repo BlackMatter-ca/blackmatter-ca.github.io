@@ -1,30 +1,26 @@
+import Link from 'next/link';
 import Dust from './Dust';
+import { Top, Strip } from './Chrome';
+import { site, services } from './site';
 
 export default function Home() {
   return (
     <main className="stage">
-      <header className="top">
-        <img className="stone-small" src="/logos/blackmatter-stone-berry.svg" alt="" aria-hidden="true" />
-        <span className="label meta">Yellowknife · Northwest Territories</span>
-      </header>
-
+      <Top current="/" />
       <div className="stone-field" aria-hidden="true">
         <img className="stone" src="/logos/blackmatter-stone-berry.svg" alt="" />
       </div>
-
       <section className="mark-block">
         <Dust>
           <img className="wordmark" src="/logos/blackmatter-logo-dark.svg" alt="BlackMatter" />
         </Dust>
-        <p className="line display-lg">A consultancy. Yellowknife, Northwest Territories.</p>
+        <p className="line display-lg">{site.line}</p>
+        <p className="lede body">Two decades of mission-critical systems work in the North, now available to organizations that need infrastructure, security and automation done properly.</p>
+        <ul className="services-list label">
+          {services.map((s) => <li key={s.title}><Link href="/services/">{s.title}</Link></li>)}
+        </ul>
       </section>
-
-      <footer className="strip label">
-        <span>Magna Mater</span>
-        <span>The black stone</span>
-        <span>The pink triangle</span>
-        <span>Shield country</span>
-      </footer>
+      <Strip />
     </main>
   );
 }

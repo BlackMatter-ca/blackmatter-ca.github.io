@@ -14,13 +14,14 @@ a:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--crust), 0 0 0 4px v
 .stage > * { min-width: 0; }
 .stage {
   position: relative; min-height: 100vh; min-height: 100svh; overflow: hidden;
-  display: grid; grid-template-rows: auto 1fr auto auto;
+  display: grid; grid-template-rows: auto 1fr auto;
   border-left: 1px solid var(--surface1); border-right: 1px solid var(--surface1);
   margin: 0 var(--space-4);
 }
 @media (min-width: 900px) { .stage { margin: 0 var(--space-8); } }
 
 .top {
+  position: relative; z-index: 2;
   display: flex; align-items: center; justify-content: space-between;
   padding: var(--space-4) var(--space-4); border-bottom: 1px solid var(--surface1);
 }
@@ -30,6 +31,7 @@ a:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--crust), 0 0 0 4px v
 
 /* the stone: fills the middle row, bleeding past the bottom edge of its field into the wordmark's rule */
 .stone-field { position: relative; min-height: 46vh; overflow: hidden; }
+.stage:has(.stone-field) { grid-template-rows: auto 1fr auto auto; }
 .stone {
   position: absolute; left: 50%; bottom: -6%; transform: translateX(-50%);
   height: 118%; width: auto; display: block;
@@ -41,12 +43,12 @@ a:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--crust), 0 0 0 4px v
 @media (max-width: 600px) { .line { font-size: 24px; line-height: 28px; } }
 
 .strip {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-4);
+  display: flex; justify-content: space-between; gap: var(--space-4);
   padding: var(--space-3) var(--space-4); border-top: 1px solid var(--surface1); color: var(--berry);
 }
 .strip span { white-space: normal; }
-.strip span::before { content: ""; display: inline-block; width: 7px; height: 7px; margin-right: var(--space-2); background: var(--berry); clip-path: polygon(50% 0, 100% 100%, 0 100%); vertical-align: 1px; }
-@media (max-width: 600px) { .strip { grid-template-columns: 1fr 1fr; } }
+.strip span:first-child::before { content: ""; display: inline-block; width: 7px; height: 7px; margin-right: var(--space-2); background: var(--berry); clip-path: polygon(50% 0, 100% 100%, 0 100%); vertical-align: 1px; }
+.strip span + span { color: var(--subtext0); }
 
 /* grit: a fractal-noise grain over the lower third, fading in from nothing */
 .stage::after {
@@ -59,11 +61,9 @@ a:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--crust), 0 0 0 4px v
 
 /* load: the wordmark is uncovered left to right as the grit lifts off it */
 .dust { position: relative; }
-.dust .wordmark { clip-path: inset(0 100% 0 0); }
 @media (prefers-reduced-motion: no-preference) {
-  .dust-ready .wordmark { animation: uncover 1.4s cubic-bezier(.2,.7,.2,1) 0.1s forwards; }
+  .dust .wordmark { clip-path: inset(0 100% 0 0); animation: uncover 1.4s cubic-bezier(.2,.7,.2,1) 0.1s forwards; }
 }
-@media (prefers-reduced-motion: reduce) { .dust .wordmark { clip-path: none; } }
 @keyframes uncover { to { clip-path: inset(0 -2% 0 0); } }
 .grains { position: absolute; inset: 0; overflow: visible; pointer-events: none; }
 .grain {
@@ -76,3 +76,36 @@ a:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--crust), 0 0 0 4px v
   12% { opacity: 1; }
   100% { opacity: 0; transform: translate(var(--dx), var(--dy)) rotate(40deg); }
 }
+
+/* navigation */
+.home { display: block; }
+.nav { display: flex; gap: var(--space-6); }
+.nav a { color: var(--subtext0); text-decoration: none; padding: var(--space-1) 0; border-bottom: 1px solid transparent; }
+.nav a:hover { color: var(--text); }
+.nav a[aria-current="page"] { color: var(--berry); border-bottom-color: var(--berry); }
+@media (max-width: 600px) { .nav { gap: var(--space-4); } }
+
+/* home additions */
+.lede { max-width: 620px; margin: var(--space-4) 0 0; color: var(--subtext1); }
+.services-list { list-style: none; margin: var(--space-8) 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: var(--space-2) var(--space-6); }
+.services-list a { color: var(--text); text-decoration: none; display: block; padding: var(--space-2) 0; border-top: 1px solid var(--surface1); }
+.services-list a:hover { color: var(--berry); border-top-color: var(--berry); }
+
+/* inner pages */
+.page { position: relative; padding: var(--space-12) var(--space-4) var(--space-16); display: grid; grid-template-columns: minmax(0, 620px) 1fr; gap: var(--space-8); align-items: start; }
+.page h1 { margin: 0 0 var(--space-6); text-transform: uppercase; }
+.page .body + .body { margin-top: var(--space-4); }
+.page-text { position: relative; z-index: 1; }
+.page-stone { position: absolute; right: -6%; top: 0; bottom: 0; width: 46%; pointer-events: none; overflow: hidden; z-index: 0; }
+.page-stone img { position: absolute; right: 0; top: 0; height: 115%; width: auto; }
+.page-wide { grid-template-columns: 1fr; }
+.service-grid { list-style: none; margin: var(--space-8) 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--space-6); counter-reset: s; }
+.service-grid li { border-top: 1px solid var(--text); padding-top: var(--space-3); }
+.service-grid .num { color: var(--berry); display: block; margin-bottom: var(--space-3); }
+.service-grid h2 { margin: 0 0 var(--space-2); }
+.service-grid .body { color: var(--subtext1); margin: 0; }
+.contact-line { margin: var(--space-8) 0 0; }
+.contact-line a { color: var(--berry); text-decoration: none; text-transform: none; word-break: break-all; }
+.contact-line a:hover { color: var(--petal); }
+.meta-line { color: var(--subtext0); margin-top: var(--space-4); }
+@media (max-width: 800px) { .page { grid-template-columns: 1fr; } .page-stone { opacity: 0.35; } }
