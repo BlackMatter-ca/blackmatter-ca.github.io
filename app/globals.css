@@ -1,0 +1,33 @@
+/* DIN Alternate is the wordmark's face; where it is not installed the Google-hosted fallbacks from layout.jsx take over. */
+:root {
+  --font-display: "DIN Alternate", var(--font-barlow-sc), Bahnschrift, "Arial Narrow", sans-serif;
+  --font-sans: var(--font-barlow), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--ui-background); color: var(--ui-text); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+a { color: var(--ui-link); }
+a:focus-visible, button:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--ui-background), 0 0 0 4px var(--ui-focus); }
+::selection { background: var(--ui-selection); }
+.wrap { max-width: 960px; margin: 0 auto; padding: var(--space-12) var(--space-4); }
+header.wrap { padding-bottom: 0; }
+.mark { height: 28px; width: auto; display: block; }
+.hero { padding-top: var(--space-16); padding-bottom: var(--space-8); }
+.hero h1 { margin: 0 0 var(--space-4); text-transform: uppercase; }
+.hero p { max-width: 560px; margin: 0; }
+.muted { color: var(--ui-text-muted); }
+.tri { display: inline-block; width: 10px; height: 10px; background: var(--berry); clip-path: polygon(50% 0, 100% 100%, 0 100%); margin-right: var(--space-2); vertical-align: 1px; }
+section { padding: var(--space-8) 0; border-top: 1px solid var(--surface0); }
+section h2 { margin: 0 0 var(--space-4); }
+.name-list { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--space-4); grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.name-list li { background: var(--surface0); border-radius: var(--radius-lg); padding: var(--space-4); }
+.name-list strong { display: block; margin-bottom: var(--space-1); }
+.swatches { display: grid; gap: var(--space-2); grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); }
+.swatch { border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--surface1); }
+.swatch i { display: block; height: 56px; }
+.swatch span { display: block; padding: var(--space-1) var(--space-2); font-family: var(--font-mono); font-size: 12px; line-height: 16px; color: var(--ui-text-muted); }
+.btn { display: inline-block; font: inherit; font-weight: 600; line-height: 34px; padding: 0 var(--space-3); border-radius: var(--radius-md); border: 1px solid var(--surface2); background: var(--surface1); color: var(--ui-text); text-decoration: none; }
+.btn-primary { background: var(--ui-fill); border-color: var(--ui-fill); color: var(--ui-on-fill); }
+.row { display: flex; gap: var(--space-3); flex-wrap: wrap; }
+footer { padding: var(--space-8) 0 0; color: var(--ui-text-subtle); font-size: 13px; line-height: 18px; }
