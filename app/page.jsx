@@ -1,9 +1,11 @@
+import Dust from './Dust';
+
 export default function Home() {
   return (
     <main className="stage">
       <header className="top">
         <img className="stone-small" src="/logos/blackmatter-stone-berry.svg" alt="" aria-hidden="true" />
-        <span className="label meta">Yellowknife · on the Shield</span>
+        <span className="label meta">Yellowknife · Northwest Territories</span>
       </header>
 
       <div className="stone-field" aria-hidden="true">
@@ -11,8 +13,10 @@ export default function Home() {
       </div>
 
       <section className="mark-block">
-        <img className="wordmark" src="/logos/blackmatter-logo-dark.svg" alt="BlackMatter" />
-        <p className="line display-lg">Darkest. Blood in bog water.</p>
+        <Dust>
+          <img className="wordmark" src="/logos/blackmatter-logo-dark.svg" alt="BlackMatter" />
+        </Dust>
+        <p className="line display-lg">A consultancy. Yellowknife, Northwest Territories.</p>
       </section>
 
       <footer className="strip label">

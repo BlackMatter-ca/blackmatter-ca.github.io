@@ -2,7 +2,7 @@
 
 The BlackMatter site: a static Next.js export, deployed to GitHub Pages by `.github/workflows/pages.yml` on every push to `main`.
 
-- `design/tokens.json` is the BlackMatter design system's token file (Darkberry's Blackwater flavour). `npm run tokens` compiles it to `app/tokens.css`; the build runs it for you. Edit the JSON, not the CSS.
+- `design/tokens.json` is the BlackMatter design system's token file (the BlackMatter palette). `npm run tokens` compiles it to `app/tokens.css`; the build runs it for you. Edit the JSON, not the CSS.
 - `public/logos/` holds the wordmark and the stone in their light, dark and berry editions.
 - `npm install`, then `npm run dev` to work locally and `npm run build` to export `out/`.
 

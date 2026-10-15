@@ -11,7 +11,7 @@ const mono = JetBrains_Mono({ subsets: ['latin'], weight: ['400'], variable: '--
 
 export const metadata = {
   title: 'BlackMatter',
-  description: 'Darkest. Deeper surfaces, the same berries at full strength. Blood in bog water.',
+  description: 'A consultancy. Yellowknife, Northwest Territories.',
   icons: { icon: '/icon.svg' },
 };
 

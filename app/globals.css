@@ -47,3 +47,32 @@ a:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--crust), 0 0 0 4px v
 .strip span { white-space: normal; }
 .strip span::before { content: ""; display: inline-block; width: 7px; height: 7px; margin-right: var(--space-2); background: var(--berry); clip-path: polygon(50% 0, 100% 100%, 0 100%); vertical-align: 1px; }
 @media (max-width: 600px) { .strip { grid-template-columns: 1fr 1fr; } }
+
+/* grit: a fractal-noise grain over the lower third, fading in from nothing */
+.stage::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 42%; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.93  0 0 0 0 0.88  0 0 0 0 0.91  0 0 0 -1.6 1.15'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  opacity: 0.4;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, rgba(0,0,0,0.5) 55%, #000);
+  mask-image: linear-gradient(to bottom, transparent, rgba(0,0,0,0.5) 55%, #000);
+}
+
+/* load: the wordmark is uncovered left to right as the grit lifts off it */
+.dust { position: relative; }
+.dust .wordmark { clip-path: inset(0 100% 0 0); }
+@media (prefers-reduced-motion: no-preference) {
+  .dust-ready .wordmark { animation: uncover 1.4s cubic-bezier(.2,.7,.2,1) 0.1s forwards; }
+}
+@media (prefers-reduced-motion: reduce) { .dust .wordmark { clip-path: none; } }
+@keyframes uncover { to { clip-path: inset(0 -2% 0 0); } }
+.grains { position: absolute; inset: 0; overflow: visible; pointer-events: none; }
+.grain {
+  position: absolute; display: block; background: var(--text); opacity: 0;
+  animation-name: blow; animation-timing-function: cubic-bezier(.1,.6,.3,1); animation-fill-mode: forwards;
+}
+.grain.pink { background: var(--berry); }
+@keyframes blow {
+  0% { opacity: 0; transform: translate(0, 0); }
+  12% { opacity: 1; }
+  100% { opacity: 0; transform: translate(var(--dx), var(--dy)) rotate(40deg); }
+}
