@@ -1,6 +1,7 @@
-/* Alte DIN 1451 Mittelschrift is the face the wordmark was drawn from; app/fonts ships its gepraegt cut (--font-din). Bahnschrift is the system cousin and the Google-hosted Barlow Semi Condensed from layout.jsx the last fallback. */
+/* Alte DIN 1451 Mittelschrift is the face the wordmark was drawn from; app/fonts ships it (--font-din) and its embossed gepraegt cut (--font-din-embossed). Bahnschrift is the system cousin and the Google-hosted Barlow Semi Condensed from layout.jsx the last fallback. */
 :root {
   --font-display: var(--font-din), "Alte DIN 1451 Mittelschrift", Bahnschrift, var(--font-barlow-sc), "Arial Narrow", sans-serif;
+  --font-display-embossed: var(--font-din-embossed), var(--font-din), Bahnschrift, sans-serif;
   --font-sans: var(--font-barlow), system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, monospace;
 }
