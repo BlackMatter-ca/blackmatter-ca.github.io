@@ -1,7 +1,7 @@
 import { Barlow, Barlow_Semi_Condensed, JetBrains_Mono } from 'next/font/google';
 import localFont from 'next/font/local';
-import './tokens.css';
 import './globals.css';
+import { ThemeScript } from './Theme';
 
 const sans = Barlow({ subsets: ['latin'], weight: ['400', '600'], variable: '--font-barlow' });
 const display = Barlow_Semi_Condensed({ subsets: ['latin'], weight: ['700'], variable: '--font-barlow-sc' });
@@ -17,7 +17,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${din.variable} ${dinEmbossed.variable} ${sans.variable} ${display.variable} ${mono.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${din.variable} ${dinEmbossed.variable} ${sans.variable} ${display.variable} ${mono.variable}`}>
+      <head><ThemeScript /></head>
       <body>{children}</body>
     </html>
   );

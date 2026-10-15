@@ -17,5 +17,12 @@ for (const g of t.type.groups) for (const s of g.styles) {
   if (s.letterSpacing) d.push(`letter-spacing: ${s.letterSpacing}`);
   lines.push(`.${s.name} { ${d.join('; ')}; }`);
 }
+// Tailwind: expose every token as a utility (bg-berry, text-crust, border-surface1, font-display, p-4 …)
+lines.push('@theme inline reference {');
+for (const c of t.color.tokens) lines.push(`  --color-${c.name}: var(--${c.name});`);
+for (const c of t.spacing.tokens) lines.push(`  --spacing-${c.name.replace('space-', '')}: var(--${c.name});`);
+for (const c of t.radius.tokens) lines.push(`  --radius-${c.name.replace('radius-', '')}: var(--${c.name});`);
+for (const k of Object.keys(t.type.families)) lines.push(`  --font-${k}: var(--font-${k});`);
+lines.push('}');
 writeFileSync(new URL('../app/tokens.css', import.meta.url), lines.join('\n') + '\n');
 console.log(`tokens.css: ${t.color.tokens.length} colours`);

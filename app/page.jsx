@@ -1,24 +1,37 @@
 import Link from 'next/link';
 import Dust from './Dust';
 import { Top, Strip } from './Chrome';
+import { Wordmark, Stone } from './Marks';
 import { site, services } from './site';
 
 export default function Home() {
   return (
     <main className="stage">
       <Top current="/" />
-      <div className="stone-field" aria-hidden="true">
-        <img className="stone" src="/logos/blackmatter-stone-berry.svg" alt="" />
-      </div>
-      <section className="mark-block">
-        <Dust>
-          <img className="wordmark" src="/logos/blackmatter-logo-dark.svg" alt="BlackMatter" />
-        </Dust>
-        <p className="line display-lg">{site.line}</p>
-        <p className="lede body">Two decades of mission-critical systems work in the North, now available to organizations that need infrastructure, security and automation done properly.</p>
-        <ul className="services-list label">
-          {services.map((s) => <li key={s.title}><Link href="/services/">{s.title}</Link></li>)}
-        </ul>
+      <section className="relative px-4 pt-10 pb-16 md:pt-14">
+        <Stone className="stone-watermark" />
+        <div className="relative z-[1]">
+          <div className="max-w-[640px]">
+            <Dust><Wordmark className="wordmark" /></Dust>
+          </div>
+          <h1 className="display headline mt-12 md:mt-16">Infrastructure. Security. <em>Automation.</em></h1>
+          <div className="mt-8 grid gap-6 md:grid-cols-2 md:gap-12 md:items-end">
+            <p className="lede">{site.line} We plan for failure before it happens, write it down so your team can run it, and build what holds up with long supply lines.</p>
+            <div className="flex flex-wrap gap-3 md:justify-end">
+              <Link href="/contact/" className="btn btn-accent">Request a proposal</Link>
+              <Link href="/services/" className="btn btn-quiet">Services</Link>
+            </div>
+          </div>
+          <ol className="ledger mt-14 list-none p-0">
+            {services.map((s, i) => (
+              <li key={s.title}>
+                <span className="label n">{String(i + 1).padStart(2, '0')}</span>
+                <span className="t"><Link href="/services/">{s.title}</Link></span>
+                <span className="d">{s.short ?? s.body}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
       </section>
       <Strip />
     </main>

@@ -1,75 +1,124 @@
-/* Alte DIN 1451 Mittelschrift is the face the wordmark was drawn from; app/fonts ships it (--font-din) and its embossed gepraegt cut (--font-din-embossed). Bahnschrift is the system cousin and the Google-hosted Barlow Semi Condensed from layout.jsx the last fallback. */
+@import "tailwindcss";
+@import "./tokens.css";
+
+/* Theme: one site, two grounds. The palette tokens in tokens.css never change; these semantic
+   variables pick which of them is ground, ink and accent. Dark is the default, light follows the
+   system preference, and the toggle in the top bar pins either one on <html data-theme>. */
+@custom-variant dark (&:where(:root:not([data-theme="light"]), :root:not([data-theme="light"]) *));
+@custom-variant light (&:where([data-theme="light"], [data-theme="light"] *));
+
+:root {
+  --ground: var(--crust); --ground-2: var(--base);
+  --ink: var(--text); --ink-2: var(--subtext1); --ink-3: var(--subtext0);
+  --rule: var(--surface1); --rule-strong: var(--text);
+  --accent: var(--berry); --accent-hover: var(--petal); --on-accent: var(--crust);
+  --stone-opacity: 0.12; --grit-filter: none; --grit-blend: screen; --grit-opacity: 0.55;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) { --is-light: 1; } }
+:root[data-theme="light"] { --is-light: 1; }
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --ground: var(--text); --ground-2: var(--subtext1);
+    --ink: var(--crust); --ink-2: var(--surface2); --ink-3: var(--overlay0);
+    --rule: var(--subtext0); --rule-strong: var(--crust);
+    --accent: var(--jam); --accent-hover: var(--surface2); --on-accent: var(--onjam);
+    --stone-opacity: 0.2; --grit-filter: invert(1); --grit-blend: multiply; --grit-opacity: 0.45;
+    color-scheme: light;
+  }
+}
+:root[data-theme="light"] {
+  --ground: var(--text); --ground-2: var(--subtext1);
+  --ink: var(--crust); --ink-2: var(--surface2); --ink-3: var(--overlay0);
+  --rule: var(--subtext0); --rule-strong: var(--crust);
+  --accent: var(--jam); --accent-hover: var(--surface2); --on-accent: var(--onjam);
+  --stone-opacity: 0.2; --grit-filter: invert(1); --grit-blend: multiply; --grit-opacity: 0.45;
+  color-scheme: light;
+}
+
+/* Alte DIN 1451 Mittelschrift is the face the wordmark was drawn from; app/fonts ships it (--font-din) and its embossed gepraegt cut. Bahnschrift is the system cousin and Barlow Semi Condensed the last fallback. */
 :root {
   --font-display: var(--font-din), "Alte DIN 1451 Mittelschrift", Bahnschrift, var(--font-barlow-sc), "Arial Narrow", sans-serif;
   --font-display-embossed: var(--font-din-embossed), var(--font-din), Bahnschrift, sans-serif;
   --font-sans: var(--font-barlow), system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, monospace;
 }
-* { box-sizing: border-box; }
-html, body { margin: 0; }
-body { background: var(--crust); color: var(--text); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
-::selection { background: var(--berry); color: var(--crust); }
-a:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--crust), 0 0 0 4px var(--berry); }
 
+@layer base {
+  html, body { margin: 0; }
+  body { background: var(--ground); color: var(--ink); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+  ::selection { background: var(--accent); color: var(--ground); }
+  a:focus-visible, button:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--ground), 0 0 0 4px var(--accent); }
+  h1, h2, p, ol, ul { margin: 0; }
+}
+
+/* the page frame: hairline rails either side, grit rising from the foot */
+.stage { position: relative; min-height: 100svh; overflow: hidden; display: grid; grid-template-rows: auto 1fr auto; border-left: 1px solid var(--rule); border-right: 1px solid var(--rule); margin: 0 var(--space-4); }
 .stage > * { min-width: 0; }
-.stage {
-  position: relative; min-height: 100vh; min-height: 100svh; overflow: hidden;
-  display: grid; grid-template-rows: auto 1fr auto;
-  border-left: 1px solid var(--surface1); border-right: 1px solid var(--surface1);
-  margin: 0 var(--space-4);
-}
 @media (min-width: 900px) { .stage { margin: 0 var(--space-8); } }
-
-.top {
-  position: relative; z-index: 2;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: var(--space-4) var(--space-4); border-bottom: 1px solid var(--surface1);
-}
-.stone-small { height: 28px; width: auto; display: block; }
-.label { font-family: var(--font-mono); font-size: 11px; line-height: 16px; letter-spacing: 0.14em; text-transform: uppercase; }
-.meta { color: var(--subtext0); text-align: right; margin-left: var(--space-4); }
-
-/* the stone: fills the middle row, bleeding past the bottom edge of its field into the wordmark's rule */
-.stone-field { position: relative; min-height: 46vh; overflow: hidden; }
-.stage:has(.stone-field) { grid-template-rows: auto 1fr auto auto; }
-.stone {
-  position: absolute; left: 50%; bottom: -6%; transform: translateX(-50%);
-  height: 118%; width: auto; display: block;
-}
-
-.mark-block { padding: var(--space-6) var(--space-4) var(--space-8); border-top: 1px solid var(--text); }
-.wordmark { display: block; width: 100%; height: auto; }
-.line { margin: var(--space-6) 0 0; color: var(--text); text-transform: uppercase; }
-@media (max-width: 600px) { .line { font-size: 24px; line-height: 28px; } }
-
-.strip {
-  display: flex; justify-content: space-between; gap: var(--space-4);
-  padding: var(--space-3) var(--space-4); border-top: 1px solid var(--surface1); color: var(--berry);
-}
-.strip span { white-space: normal; }
-.strip span:first-child::before { content: ""; display: inline-block; width: 7px; height: 7px; margin-right: var(--space-2); background: var(--berry); clip-path: polygon(50% 0, 100% 100%, 0 100%); vertical-align: 1px; }
-.strip span + span { color: var(--subtext0); }
-
-/* grit: a photographed dust-and-grit texture (public/textures/grit.webp) screened over the lower third, fading in from nothing */
 .stage::after {
-  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 48%; pointer-events: none; z-index: 1;
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 44%; pointer-events: none; z-index: 1;
   background: url("/textures/grit.webp") center bottom / cover no-repeat;
-  mix-blend-mode: screen; opacity: 0.6;
-  -webkit-mask-image: linear-gradient(to bottom, transparent, rgba(0,0,0,0.6) 50%, #000);
-  mask-image: linear-gradient(to bottom, transparent, rgba(0,0,0,0.6) 50%, #000);
+  filter: var(--grit-filter); mix-blend-mode: var(--grit-blend); opacity: var(--grit-opacity);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, rgba(0,0,0,.35) 45%, #000 90%);
+  mask-image: linear-gradient(to bottom, transparent, rgba(0,0,0,.35) 45%, #000 90%);
 }
+
+/* type */
+.label { font-family: var(--font-mono); font-size: 11px; line-height: 16px; letter-spacing: 0.14em; text-transform: uppercase; }
+.display { font-family: var(--font-display); text-transform: uppercase; letter-spacing: 0.02em; line-height: 0.95; font-weight: 400; }
+.headline { font-size: clamp(34px, 9vw, 118px); max-width: 11ch; }
+.headline em { font-style: normal; color: var(--accent); }
+.page-title { font-size: clamp(40px, 7vw, 88px); }
+
+/* top bar: on narrow screens the stone and the toggle share the first row and the navigation takes the second */
+.top { flex-wrap: wrap; }
+@media (max-width: 600px) { .top .nav { order: 3; flex-basis: 100%; justify-content: space-between; gap: var(--space-3); } }
+.nav a { color: var(--ink-3); text-decoration: none; padding: var(--space-1) 0; border-bottom: 1px solid transparent; }
+.nav a:hover { color: var(--ink); }
+.nav a[aria-current="page"] { color: var(--accent); border-bottom-color: var(--accent); }
+.theme-toggle { background: none; border: 1px solid var(--rule); color: var(--ink-3); cursor: pointer; padding: 3px 8px; border-radius: var(--radius-sm); }
+.theme-toggle:hover { color: var(--ink); border-color: var(--ink-3); }
+.theme-toggle .if-dark { display: inline; } .theme-toggle .if-light { display: none; }
+:root[data-theme="light"] .theme-toggle .if-dark { display: none; }
+:root[data-theme="light"] .theme-toggle .if-light { display: inline; }
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) .theme-toggle .if-dark { display: none; }
+  :root:not([data-theme="dark"]) .theme-toggle .if-light { display: inline; }
+}
+
+/* the stone, pushed into the background: a berry watermark behind the home headline, a corner on the inner pages */
+.stone-watermark { position: absolute; left: 50%; top: -2%; height: 104%; width: auto; transform: translateX(-42%); color: var(--berry); opacity: var(--stone-opacity); pointer-events: none; z-index: 0; }
+.stone-corner { position: absolute; right: -4%; bottom: -16%; height: 92%; width: auto; color: var(--berry); opacity: var(--stone-opacity); pointer-events: none; z-index: 0; }
+@media (max-width: 800px) { .stone-corner { height: 70%; right: -20%; } }
+
+/* buttons */
+.btn { display: inline-block; font-weight: 600; font-size: 15px; line-height: 36px; padding: 0 14px; border-radius: var(--radius-md); text-decoration: none; white-space: nowrap; }
+.btn-accent { background: var(--accent); color: var(--on-accent); }
+.btn-accent:hover { background: var(--accent-hover); color: var(--ground); }
+.btn-quiet { color: var(--ink); border: 1px solid var(--rule); }
+.btn-quiet:hover { border-color: var(--ink); }
+
+/* the ledger of services */
+.ledger { border-top: 1px solid var(--rule-strong); counter-reset: s; }
+.ledger li { display: grid; grid-template-columns: 48px 1fr; gap: 0 var(--space-4); padding: 14px 0; border-bottom: 1px solid var(--rule); align-items: baseline; }
+@media (min-width: 720px) { .ledger li { grid-template-columns: 56px 1fr 1fr; } }
+.ledger .n { color: var(--accent); }
+.ledger .t { font-family: var(--font-display); font-size: 24px; line-height: 1.05; text-transform: uppercase; letter-spacing: 0.02em; }
+.ledger .d { color: var(--ink-3); font-size: 14px; line-height: 20px; grid-column: 2; }
+@media (min-width: 720px) { .ledger .d { grid-column: 3; } }
+.ledger a { color: inherit; text-decoration: none; }
+.ledger a:hover { color: var(--accent); }
 
 /* load: the wordmark is uncovered left to right as the grit lifts off it */
 .dust { position: relative; }
+.wordmark { display: block; width: 100%; height: auto; color: var(--ink); }
 @media (prefers-reduced-motion: no-preference) {
   .dust .wordmark { clip-path: inset(0 100% 0 0); animation: uncover 1.4s cubic-bezier(.2,.7,.2,1) 0.1s forwards; }
 }
 @keyframes uncover { to { clip-path: inset(0 -2% 0 0); } }
 .grains { position: absolute; inset: 0; overflow: visible; pointer-events: none; }
-.grain {
-  position: absolute; display: block; background: var(--text); opacity: 0;
-  animation-name: blow; animation-timing-function: cubic-bezier(.1,.6,.3,1); animation-fill-mode: forwards;
-}
+.grain { position: absolute; display: block; background: var(--ink); opacity: 0; animation-name: blow; animation-timing-function: cubic-bezier(.1,.6,.3,1); animation-fill-mode: forwards; }
 .grain.pink { background: var(--berry); }
 @keyframes blow {
   0% { opacity: 0; transform: translate(0, 0); }
@@ -77,35 +126,9 @@ a:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--crust), 0 0 0 4px v
   100% { opacity: 0; transform: translate(var(--dx), var(--dy)) rotate(40deg); }
 }
 
-/* navigation */
-.home { display: block; }
-.nav { display: flex; gap: var(--space-6); }
-.nav a { color: var(--subtext0); text-decoration: none; padding: var(--space-1) 0; border-bottom: 1px solid transparent; }
-.nav a:hover { color: var(--text); }
-.nav a[aria-current="page"] { color: var(--berry); border-bottom-color: var(--berry); }
-@media (max-width: 600px) { .nav { gap: var(--space-4); } }
-
-/* home additions */
-.lede { max-width: 620px; margin: var(--space-4) 0 0; color: var(--subtext1); }
-.services-list { list-style: none; margin: var(--space-8) 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: var(--space-2) var(--space-6); }
-.services-list a { color: var(--text); text-decoration: none; display: block; padding: var(--space-2) 0; border-top: 1px solid var(--surface1); }
-.services-list a:hover { color: var(--berry); border-top-color: var(--berry); }
-
-/* inner pages */
-.page { position: relative; padding: var(--space-12) var(--space-4) var(--space-16); display: grid; grid-template-columns: minmax(0, 620px) 1fr; gap: var(--space-8); align-items: start; }
-.page h1 { margin: 0 0 var(--space-6); text-transform: uppercase; }
-.page .body + .body { margin-top: var(--space-4); }
-.page-text { position: relative; z-index: 1; }
-.page-stone { position: absolute; right: -6%; top: 0; bottom: 0; width: 46%; pointer-events: none; overflow: hidden; z-index: 0; }
-.page-stone img { position: absolute; right: 0; top: 0; height: 115%; width: auto; }
-.page-wide { grid-template-columns: 1fr; }
-.service-grid { list-style: none; margin: var(--space-8) 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--space-6); counter-reset: s; }
-.service-grid li { border-top: 1px solid var(--text); padding-top: var(--space-3); }
-.service-grid .num { color: var(--berry); display: block; margin-bottom: var(--space-3); }
-.service-grid h2 { margin: 0 0 var(--space-2); }
-.service-grid .body { color: var(--subtext1); margin: 0; }
-.contact-line { margin: var(--space-8) 0 0; }
-.contact-line a { color: var(--berry); text-decoration: none; text-transform: none; word-break: break-all; }
-.contact-line a:hover { color: var(--petal); }
-.meta-line { color: var(--subtext0); margin-top: var(--space-4); }
-@media (max-width: 800px) { .page { grid-template-columns: 1fr; } .page-stone { opacity: 0.35; } }
+/* prose */
+.prose p { color: var(--ink-2); font-size: 17px; line-height: 27px; max-width: 56ch; }
+.prose p + p { margin-top: var(--space-4); }
+.lede { color: var(--ink-2); font-size: 18px; line-height: 28px; max-width: 46ch; }
+.contact-link { color: var(--accent); text-decoration: none; overflow-wrap: anywhere; }
+.contact-link:hover { color: var(--accent-hover); }
