@@ -1,6 +1,6 @@
-/* DIN Alternate is the wordmark's face; where it is not installed the Google-hosted fallbacks from layout.jsx take over. */
+/* Alte DIN 1451 Mittelschrift is the face the wordmark was drawn from; Bahnschrift is its system cousin, and the Google-hosted Barlow Semi Condensed from layout.jsx is the last fallback. */
 :root {
-  --font-display: "DIN Alternate", var(--font-barlow-sc), Bahnschrift, "Arial Narrow", sans-serif;
+  --font-display: "Alte DIN 1451 Mittelschrift", Bahnschrift, var(--font-barlow-sc), "Arial Narrow", sans-serif;
   --font-sans: var(--font-barlow), system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, monospace;
 }
