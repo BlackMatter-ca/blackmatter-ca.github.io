@@ -141,3 +141,16 @@ Checked at 784px and 1280px wide, at 375px, and in both themes. No page scrolls 
 | 5 Two grounds | The rail keeps the way to reach us on screen. The swap toggle is a nice trick. | Two grounds at once is a lot of contrast on a large monitor. On a phone it is just a dark header. | Narrow the rail to 240px and lift its ink to subtext1. |
 
 Things true of all five: Inter at 300 for the display sizes is what makes the caps feel engineered rather than shouted. The browser pane in the desktop app only advances CSS animations while a tool call is running, so the map and the stone were checked with `document.getAnimations().forEach(a => a.finish())`; in a normal browser they run on load.
+
+## The mix: stone and territory (`v6-stone-territory.html`)
+
+Chosen 2026-10-15 from directions 3 and 2, with two corrections: the wordmark must land on the home page, and the pages read as walls of text.
+
+| Change | How the page does it |
+|---|---|
+| Logo lands | The wordmark is the first element, 78px tall on desktop, uncovered left to right on load. The nav sits under it on a ruled bar. |
+| Stone + territory | The stone stands at Yellowknife on the map, and every community link draws out from it. One image, one meaning: from here, the whole territory. |
+| Less text | No paragraph longer than two lines. Three bullets instead of a lede. Eight titles with no descriptions. Four steps of one line each. Six record lines with the subject in bold. |
+| Something to look at in every section | The map, the three-hundred-dot grid with four in berry, the stone bullets, the ruled grids. |
+
+Weak spots: the map's labels are small at phone width, and the stone hides the communities south-east of Yellowknife. The three-hundred-dot grid needs its caption to be understood, so the heading says the number.
