@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en" data-default="blackwater">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BlackMatter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="bundle.css">
+<link rel="stylesheet" href="shared.css">
+<script src="shared.js"></script>
+<script src="copy.js"></script>
+<style>
+.top { display: flex; align-items: center; justify-content: space-between; padding: 20px 16px; position: absolute; inset-inline: 0; top: 0; z-index: 3; }
+@media (min-width: 720px) { .top { padding-inline: 40px; } }
+.poster { min-height: 100svh; display: grid; grid-template-rows: 1fr auto; justify-items: center; text-align: center; position: relative; overflow: hidden; padding: 88px 16px 56px; }
+.stone-grit { position: relative; width: min(60vh, 84vw); aspect-ratio: 190 / 257; clip-path: polygon(49.9% 0, 0 99.6%, 23.8% 86.1%, 35.2% 63.2%, 100% 100%); background: var(--surface1); align-self: end; }
+.stone-grit::after { content: ""; position: absolute; inset: 0; background: url("grit.webp") 38% 44% / 200% no-repeat; mix-blend-mode: screen; opacity: 0.9; }
+[data-theme="clearwater"] .stone-grit { background: var(--surface2); }
+[data-theme="clearwater"] .stone-grit::after { filter: invert(1); mix-blend-mode: multiply; opacity: 0.55; }
+.poster-copy { margin-top: -10vh; position: relative; z-index: 2; max-width: 720px; }
+.poster-copy h1 { margin: 0 0 20px; }
+.poster-copy .lede { margin: 0 auto; }
+.actions { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 28px; }
+@media (prefers-reduced-motion: no-preference) { .stone-grit { animation: settle 1.4s cubic-bezier(.2,.7,.2,1) both; } }
+@keyframes settle { from { opacity: 0; transform: translateY(18px); } }
+
+.col { max-width: 720px; margin: 0 auto; padding: 0 16px; }
+.sec { padding-block: 64px; border-top: 1px solid var(--rule); }
+.sec h2 { margin: 0 0 28px; text-align: center; }
+.sec .copy, .sec .lede { margin-inline: auto; text-align: center; }
+.list-stone { margin: 0; padding-left: 1.4em; }
+.list-stone li + li { margin-top: 22px; }
+.list-stone h3 { margin: 0 0 4px; }
+.list-stone p { margin: 0; }
+.pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px 40px; list-style: none; padding: 0; margin: 0; }
+.pair li { padding: 10px 0; border-bottom: 1px solid var(--rule); }
+.pair h3 { margin: 0 0 2px; font-size: 14px; line-height: 20px; letter-spacing: 0.08em; }
+.pair p { margin: 0; }
+.steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 24px; list-style: none; padding: 0; margin: 0; counter-reset: s; }
+.steps li { border-top: 1px solid var(--rule-strong); padding-top: 10px; }
+.steps li::before { counter-increment: s; content: counter(s); display: block; color: var(--accent); font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+.steps h3 { margin: 0 0 6px; }
+.steps p { margin: 0; }
+.rec { list-style: none; padding: 0; margin: 0; }
+.rec li { padding: 12px 0; border-bottom: 1px solid var(--rule); font-size: 15px; line-height: 23px; color: var(--subtext1); }
+.contact-line { display: block; text-align: center; font-size: clamp(22px, 5vw, 56px); font-weight: 300; letter-spacing: 0.02em; text-decoration: none; color: var(--link); overflow-wrap: anywhere; }
+.contact-line:hover { color: var(--link-hover); }
+.foot { padding: 24px 16px 40px; border-top: 1px solid var(--rule); text-align: center; font-size: 13px; color: var(--subtext0); }
+</style>
+</head>
+<body>
+<header class="top">
+  <a href="#top" class="quiet" aria-label="BlackMatter, top of page"><span data-mark="wordmark"></span></a>
+  <button class="btn btn-ghost btn-sm theme-toggle" type="button">Theme</button>
+</header>
+
+<main id="top">
+  <section class="poster">
+    <div class="stone-grit" aria-hidden="true"></div>
+    <div class="poster-copy">
+      <h1 class="display-xl">Scope before spend.</h1>
+      <p class="lede" id="lede"></p>
+      <div class="actions"><a class="btn btn-accent" id="cta" href="#">Request a proposal</a><a class="btn btn-ghost" href="#record">See the record</a></div>
+    </div>
+  </section>
+
+  <section class="sec" id="advisory"><div class="col">
+    <h2>What the advice covers</h2>
+    <p class="copy" id="problem" style="margin-bottom:36px"></p>
+    <ul class="list-stone" id="advisory-list"></ul>
+  </div></section>
+
+  <section class="sec" id="experience"><div class="col">
+    <h2>Where the experience is</h2>
+    <ul class="pair" id="experience-list"></ul>
+  </div></section>
+
+  <section class="sec" id="method"><div class="col">
+    <h2>How an engagement runs</h2>
+    <ol class="steps" id="method-list"></ol>
+  </div></section>
+
+  <section class="sec" id="record"><div class="col">
+    <h2>The record</h2>
+    <p class="copy" style="margin-bottom:28px">Every line is drawn from work done. Nothing names a client or an employer.</p>
+    <ul class="rec" id="record-list"></ul>
+  </div></section>
+
+  <section class="sec" id="contact"><div class="col">
+    <h2>Contact</h2>
+    <p class="copy" style="margin-bottom:24px">Tell us what you need, what it has to do for the business, and when. We reply within two business days.</p>
+    <a class="contact-line" id="email" href="#">hello@blackmatter.ca</a>
+  </div></section>
+</main>
+<footer class="foot">BlackMatter, Yellowknife, Northwest Territories</footer>
+
+<script>
+(function () {
+  var B = window.BM, esc = function (s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;'); };
+  document.getElementById('lede').textContent = B.lede;
+  document.getElementById('problem').textContent = B.problem;
+  document.getElementById('advisory-list').innerHTML = B.advisory.map(function (a) { return '<li><h3>' + esc(a.title) + '</h3><p class="copy">' + esc(a.body) + '</p></li>'; }).join('');
+  document.getElementById('experience-list').innerHTML = B.experience.map(function (a) { return '<li><h3>' + esc(a.title) + '</h3><p class="small">' + esc(a.short) + '</p></li>'; }).join('');
+  document.getElementById('method-list').innerHTML = B.method.map(function (a) { return '<li><h3>' + esc(a.title) + '</h3><p class="small">' + esc(a.body) + '</p></li>'; }).join('');
+  document.getElementById('record-list').innerHTML = B.recordProse.map(function (r) { return '<li>' + esc(r) + '</li>'; }).join('');
+  document.getElementById('email').href = 'mailto:' + B.email; document.getElementById('email').textContent = B.email;
+  document.getElementById('cta').href = B.mailto;
+})();
+</script>
+</body>
+</html>

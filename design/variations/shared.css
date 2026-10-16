@@ -1,0 +1,29 @@
+/* What every variation shares on top of tokens.css and bundle.css: hairline roles, the marks, focus, a few type sizes. */
+:root { --rule: var(--surface0); --rule-strong: var(--overlay2); }
+[data-theme="clearwater"] { --rule: var(--overlay0); --rule-strong: var(--overlay1); }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { min-height: 100svh; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+/* marks: <span data-mark="wordmark"> and <span data-mark="stone"> are filled by shared.js */
+[data-mark] { display: block; line-height: 0; color: var(--text); }
+[data-mark] svg { display: block; height: 100%; width: auto; }
+[data-mark="wordmark"] { height: 22px; }
+[data-mark="stone"] { color: var(--accent); }
+
+/* links that are not pink: navigation, titles */
+a.quiet { color: inherit; text-decoration: none; }
+a.quiet:hover { color: var(--link); }
+
+/* display sizes beyond the system's 48px: caps, light weight, tight leading, tracked for caps */
+.display-xl { font-size: clamp(36px, 6.6vw, 92px); line-height: 1.0; letter-spacing: 0.02em; font-weight: 300; text-transform: uppercase; }
+.display-lg { font-size: clamp(30px, 4.6vw, 60px); line-height: 1.04; letter-spacing: 0.03em; font-weight: 300; text-transform: uppercase; }
+.display-md { font-size: clamp(24px, 3vw, 36px); line-height: 1.1; letter-spacing: 0.04em; font-weight: 300; text-transform: uppercase; }
+
+/* body measures */
+.lede { font-size: 18px; line-height: 28px; color: var(--subtext1); max-width: 52ch; }
+.copy { font-size: 16px; line-height: 25px; color: var(--subtext1); max-width: 62ch; }
+.small { font-size: 14px; line-height: 21px; color: var(--subtext1); }
+.muted { color: var(--subtext0); }
+.tnum { font-variant-numeric: tabular-nums; }

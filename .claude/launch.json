@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "variations",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8471", "--directory", "design/variations"],
+      "port": 8471
+    }
+  ]
+}

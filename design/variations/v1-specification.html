@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en" data-default="clearwater">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BlackMatter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="bundle.css">
+<link rel="stylesheet" href="shared.css">
+<script src="shared.js"></script>
+<script src="copy.js"></script>
+<style>
+.wrap { padding-inline: 16px; }
+@media (min-width: 720px) { .wrap { padding-inline: 48px; } }
+.top { display: flex; align-items: center; gap: 24px; padding-block: 18px; border-bottom: 1px solid var(--rule); position: sticky; top: 0; background: var(--base); z-index: 2; }
+.toc { display: flex; gap: 20px; flex: 1; justify-content: center; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; }
+.toc a { color: var(--subtext1); text-decoration: none; white-space: nowrap; }
+.toc a:hover { color: var(--text); }
+.toc .n { color: var(--subtext0); margin-right: 5px; font-weight: 400; font-variant-numeric: tabular-nums; }
+@media (max-width: 900px) { .toc { display: none; } }
+.doc { max-width: 1000px; padding-block: 72px 140px; position: relative; z-index: 1; }
+.title-h { margin: 0; max-width: 13ch; }
+.meta { display: grid; grid-template-columns: max-content 1fr; gap: 6px 28px; margin: 44px 0 0; font-size: 15px; line-height: 22px; max-width: 60ch; }
+.meta dt { color: var(--subtext0); }
+.meta dd { margin: 0; color: var(--subtext1); }
+.clause { margin-top: 80px; }
+.clause h2, .clause h3, .clause p { display: grid; grid-template-columns: 52px minmax(0, 66ch); column-gap: 14px; }
+@media (min-width: 720px) { .clause h2, .clause h3, .clause p { grid-template-columns: 88px minmax(0, 66ch); column-gap: 24px; } }
+.clause h2 { border-top: 1px solid var(--rule-strong); padding-top: 14px; margin: 0 0 22px; }
+.clause .n { color: var(--subtext0); font-weight: 400; font-variant-numeric: tabular-nums; letter-spacing: 0; text-transform: none; font-size: 15px; line-height: inherit; }
+.clause h2 .n { line-height: 30px; }
+.clause p { margin: 0 0 14px; color: var(--subtext1); font-size: 16px; line-height: 25px; }
+.clause h3 { margin: 22px 0 6px; }
+.clause h3:first-of-type { margin-top: 0; }
+.contact-line { font-size: clamp(22px, 4vw, 44px); line-height: 1.1; font-weight: 300; letter-spacing: 0.02em; color: var(--link); text-decoration: none; overflow-wrap: anywhere; }
+.contact-line:hover { color: var(--link-hover); }
+.actions { margin-top: 24px; display: flex; gap: 8px; flex-wrap: wrap; }
+.wm { position: fixed; right: -8vw; bottom: -14vh; height: 74vh; pointer-events: none; z-index: 0; opacity: 0.06; }
+.wm[data-mark] { color: var(--text); }
+[data-theme="blackwater"] .wm[data-mark] { color: var(--surface0); opacity: 1; }
+.foot { border-top: 1px solid var(--rule); padding-block: 20px 40px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--subtext0); position: relative; z-index: 1; }
+</style>
+</head>
+<body>
+<header class="top wrap">
+  <a href="#top" class="quiet" aria-label="BlackMatter, top of page"><span data-mark="wordmark"></span></a>
+  <nav class="toc" aria-label="Contents">
+    <a href="#scope"><span class="n">1</span>Scope</a>
+    <a href="#advisory"><span class="n">2</span>Advisory</a>
+    <a href="#experience"><span class="n">3</span>Experience</a>
+    <a href="#method"><span class="n">4</span>Method</a>
+    <a href="#record"><span class="n">5</span>Record</a>
+    <a href="#terms"><span class="n">6</span>Terms</a>
+    <a href="#contact"><span class="n">7</span>Contact</a>
+  </nav>
+  <button class="btn btn-ghost btn-sm theme-toggle" type="button">Theme</button>
+</header>
+
+<main class="doc wrap" id="top">
+  <section>
+    <h1 class="display-xl title-h">Statement of capability</h1>
+    <dl class="meta">
+      <dt>Issuer</dt><dd>BlackMatter, Yellowknife, Northwest Territories</dd>
+      <dt>Issued</dt><dd>October 2026</dd>
+      <dt>Status</dt><dd>Current. Supersedes nothing; this is the first issue.</dd>
+      <dt>Reply</dt><dd>Within two business days of a request</dd>
+    </dl>
+  </section>
+
+  <section class="clause" id="scope">
+    <h2><span class="n">1</span>Scope</h2>
+    <p><span class="n">1.1</span>BlackMatter is an independent technology consultancy in Yellowknife. It helps organizations in the North set the scope, choose the direction, and make IT decisions that hold up on cost.</p>
+    <p><span class="n">1.2</span>The advice rests on twenty years running government and policing systems across the territory, where the radio network could not go down and the nearest spare part was a flight away.</p>
+    <p><span class="n">1.3</span>A medium or large organization rarely lacks options. It lacks someone on its own side of the table when a vendor arrives with three hundred things to sell and four of them are what the business needs. BlackMatter finds the four, writes them down, and holds the project to them.</p>
+  </section>
+
+  <section class="clause" id="advisory">
+    <h2><span class="n">2</span>What the advice covers</h2>
+    <div id="advisory-list" style="display:contents"></div>
+  </section>
+
+  <section class="clause" id="experience">
+    <h2><span class="n">3</span>Where the experience is</h2>
+    <div id="experience-list" style="display:contents"></div>
+  </section>
+
+  <section class="clause" id="method">
+    <h2><span class="n">4</span>How an engagement runs</h2>
+    <div id="method-list" style="display:contents"></div>
+  </section>
+
+  <section class="clause" id="record">
+    <h2><span class="n">5</span>The record</h2>
+    <p><span class="n">5.0</span>Every line below is drawn from work done. Nothing names a client or an employer.</p>
+    <div id="record-list" style="display:contents"></div>
+  </section>
+
+  <section class="clause" id="terms">
+    <h2><span class="n">6</span>Terms</h2>
+    <div id="terms-list" style="display:contents"></div>
+  </section>
+
+  <section class="clause" id="contact">
+    <h2><span class="n">7</span>Contact</h2>
+    <p><span class="n">7.1</span>Tell us what you need, what it has to do for the business, and when. The clearer the brief, the faster the proposal.</p>
+    <p><span class="n"></span><a class="contact-line" id="email" href="#">hello@blackmatter.ca</a></p>
+    <p><span class="n"></span><span class="actions"><a class="btn btn-accent" id="cta" href="#">Request a proposal</a></span></p>
+  </section>
+</main>
+<span class="wm" data-mark="stone"></span>
+<footer class="foot wrap"><span>BlackMatter</span><span>Yellowknife, Northwest Territories</span></footer>
+
+<script>
+(function () {
+  var B = window.BM, esc = function (s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;'); };
+  var sub = function (n, i, t, b) { return '<h3><span class="n">' + n + '.' + i + '</span>' + esc(t) + '</h3>' + (b ? '<p><span class="n"></span>' + esc(b) + '</p>' : ''); };
+  document.getElementById('advisory-list').innerHTML = B.advisory.map(function (a, i) { return sub(2, i + 1, a.title, a.body); }).join('');
+  document.getElementById('experience-list').innerHTML = B.experience.map(function (a, i) { return sub(3, i + 1, a.title, a.short); }).join('');
+  document.getElementById('method-list').innerHTML = B.method.map(function (a, i) { return sub(4, i + 1, a.title, a.body); }).join('');
+  document.getElementById('record-list').innerHTML = B.recordProse.map(function (r, i) { return '<p><span class="n">5.' + (i + 1) + '</span>' + esc(r) + '</p>'; }).join('');
+  document.getElementById('terms-list').innerHTML = B.terms.map(function (r, i) { return '<p><span class="n">6.' + (i + 1) + '</span>' + esc(r) + '</p>'; }).join('');
+  document.getElementById('email').href = 'mailto:' + B.email; document.getElementById('email').textContent = B.email;
+  document.getElementById('cta').href = B.mailto;
+})();
+</script>
+</body>
+</html>

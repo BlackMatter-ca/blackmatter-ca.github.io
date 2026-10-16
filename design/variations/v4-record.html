@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en" data-default="blackwater">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BlackMatter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="bundle.css">
+<link rel="stylesheet" href="shared.css">
+<script src="shared.js"></script>
+<script src="copy.js"></script>
+<style>
+.wrap { padding-inline: 16px; max-width: 1180px; margin-inline: auto; }
+@media (min-width: 720px) { .wrap { padding-inline: 40px; } }
+.top { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-block: 20px; }
+.head { padding-top: 40px; }
+.head h1 { margin: 0 0 18px; }
+.head .lede { max-width: 56ch; }
+.tabs { margin-top: 40px; }
+.tabs .tab { height: 40px; }
+[role="tabpanel"] { padding-block: 40px 96px; }
+[role="tabpanel"][hidden] { display: none; }
+.scroller { overflow-x: auto; border: 1px solid var(--rule-strong); border-radius: var(--radius-lg); }
+.table { min-width: 820px; }
+.table th { white-space: nowrap; }
+.table td { vertical-align: top; font-size: 15px; line-height: 22px; }
+.table td.w { font-weight: 600; color: var(--text); white-space: nowrap; }
+.table td.s { color: var(--subtext1); }
+.table td.o { color: var(--text); }
+.table :where(tbody tr:not(:last-child) td) { border-color: var(--rule); }
+.after { margin-top: 48px; }
+.after h2 { margin: 0 0 20px; }
+.pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px 40px; list-style: none; padding: 0; margin: 0; }
+.pair li { padding: 10px 0; border-top: 1px solid var(--rule); }
+.pair h3 { margin: 0 0 2px; font-size: 14px; line-height: 20px; letter-spacing: 0.08em; }
+.pair p { margin: 0; }
+.def { display: grid; grid-template-columns: minmax(180px, 280px) minmax(0, 62ch); gap: 0 48px; }
+@media (max-width: 680px) { .def { grid-template-columns: 1fr; } }
+.def h3 { margin: 0; padding-top: 14px; border-top: 1px solid var(--rule-strong); }
+.def p { margin: 0 0 28px; padding-top: 14px; border-top: 1px solid var(--rule-strong); }
+@media (max-width: 680px) { .def h3 { border-top: 1px solid var(--rule-strong); } .def p { border-top: 0; padding-top: 8px; } }
+.steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 36px 40px; list-style: none; padding: 0; margin: 0; counter-reset: s; }
+.steps li { border-top: 1px solid var(--rule-strong); padding-top: 12px; }
+.steps li::before { counter-increment: s; content: counter(s); display: block; color: var(--accent); font-size: 14px; font-weight: 600; margin-bottom: 10px; }
+.steps h3 { margin: 0 0 6px; }
+.steps p { margin: 0; }
+.contact-line { font-size: clamp(22px, 4.6vw, 52px); font-weight: 300; letter-spacing: 0.02em; text-decoration: none; color: var(--link); overflow-wrap: anywhere; }
+.contact-line:hover { color: var(--link-hover); }
+.actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 28px; }
+.foot { border-top: 1px solid var(--rule); padding-block: 20px 40px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--subtext0); }
+</style>
+</head>
+<body>
+<header class="top wrap">
+  <a href="#top" class="quiet" aria-label="BlackMatter, top of page"><span data-mark="wordmark"></span></a>
+  <button class="btn btn-ghost btn-sm theme-toggle" type="button">Theme</button>
+</header>
+
+<main class="wrap" id="top">
+  <div class="head">
+    <h1 class="display-xl">The record</h1>
+    <p class="lede">Advice is worth what sits behind it. This is what sits behind ours: twenty years running government and policing systems across the territory, with nothing here naming a client or an employer.</p>
+  </div>
+
+  <div role="tablist" class="tabs tabs-border" aria-label="Sections">
+    <button role="tab" class="tab tab-active" id="tab-record" aria-controls="panel-record" aria-selected="true">Record</button>
+    <button role="tab" class="tab" id="tab-advisory" aria-controls="panel-advisory" aria-selected="false" tabindex="-1">Advisory</button>
+    <button role="tab" class="tab" id="tab-method" aria-controls="panel-method" aria-selected="false" tabindex="-1">Method</button>
+    <button role="tab" class="tab" id="tab-contact" aria-controls="panel-contact" aria-selected="false" tabindex="-1">Contact</button>
+  </div>
+
+  <section role="tabpanel" id="panel-record" aria-labelledby="tab-record">
+    <div class="scroller">
+      <table class="table">
+        <thead><tr><th>Work</th><th>Scale</th><th>Outcome</th></tr></thead>
+        <tbody id="record-rows"></tbody>
+      </table>
+    </div>
+    <div class="after">
+      <h2>Where the experience is</h2>
+      <ul class="pair" id="experience-list"></ul>
+    </div>
+  </section>
+
+  <section role="tabpanel" id="panel-advisory" aria-labelledby="tab-advisory" hidden>
+    <p class="lede" id="lede" style="margin-bottom:16px"></p>
+    <p class="copy" id="problem" style="margin-bottom:40px"></p>
+    <div class="def" id="advisory-list"></div>
+    <div class="actions"><a class="btn btn-accent" href="#" data-cta>Request a proposal</a></div>
+  </section>
+
+  <section role="tabpanel" id="panel-method" aria-labelledby="tab-method" hidden>
+    <ol class="steps" id="method-list"></ol>
+  </section>
+
+  <section role="tabpanel" id="panel-contact" aria-labelledby="tab-contact" hidden>
+    <p class="copy" style="margin-bottom:24px">Tell us what you need, what it has to do for the business, and when. The clearer the brief, the faster the proposal. We reply within two business days.</p>
+    <p style="margin:0 0 8px"><a class="contact-line" id="email" href="#">hello@blackmatter.ca</a></p>
+    <p class="small muted">Yellowknife, Northwest Territories, Canada</p>
+    <div class="actions"><a class="btn btn-accent" href="#" data-cta>Request a proposal</a></div>
+  </section>
+</main>
+<footer class="foot wrap"><span>BlackMatter</span><span>Yellowknife, Northwest Territories</span></footer>
+
+<script>
+(function () {
+  var B = window.BM, esc = function (s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;'); };
+  document.getElementById('record-rows').innerHTML = B.record.map(function (r) { return '<tr><td class="w">' + esc(r.work) + '</td><td class="s">' + esc(r.scale) + '</td><td class="o">' + esc(r.outcome) + '</td></tr>'; }).join('');
+  document.getElementById('experience-list').innerHTML = B.experience.map(function (a) { return '<li><h3>' + esc(a.title) + '</h3><p class="small">' + esc(a.short) + '</p></li>'; }).join('');
+  document.getElementById('lede').textContent = B.lede;
+  document.getElementById('problem').textContent = B.problem;
+  document.getElementById('advisory-list').innerHTML = B.advisory.map(function (a) { return '<h3>' + esc(a.title) + '</h3><p class="copy">' + esc(a.body) + '</p>'; }).join('');
+  document.getElementById('method-list').innerHTML = B.method.map(function (a) { return '<li><h3>' + esc(a.title) + '</h3><p class="copy">' + esc(a.body) + '</p></li>'; }).join('');
+  document.getElementById('email').href = 'mailto:' + B.email; document.getElementById('email').textContent = B.email;
+  document.querySelectorAll('[data-cta]').forEach(function (a) { a.href = B.mailto; });
+
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
+  function select(tab) {
+    tabs.forEach(function (t) {
+      var on = t === tab;
+      t.classList.toggle('tab-active', on); t.setAttribute('aria-selected', on ? 'true' : 'false'); t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+    });
+    history.replaceState(null, '', '#' + tab.id.replace('tab-', ''));
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener('click', function () { select(t); });
+    t.addEventListener('keydown', function (e) {
+      var j = e.key === 'ArrowRight' ? i + 1 : e.key === 'ArrowLeft' ? i - 1 : e.key === 'Home' ? 0 : e.key === 'End' ? tabs.length - 1 : null;
+      if (j === null) return; e.preventDefault(); j = (j + tabs.length) % tabs.length; select(tabs[j]); tabs[j].focus();
+    });
+  });
+  var want = document.getElementById('tab-' + location.hash.slice(1)); if (want) select(want);
+})();
+</script>
+</body>
+</html>

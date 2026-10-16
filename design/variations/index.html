@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en" data-default="blackwater">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BlackMatter, five directions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="bundle.css">
+<link rel="stylesheet" href="shared.css">
+<script src="shared.js"></script>
+<style>
+main { max-width: 900px; margin: 0 auto; padding: 48px 16px 96px; }
+.top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 48px; }
+h1 { margin: 0 0 12px; }
+.list { list-style: none; padding: 0; margin: 40px 0 0; }
+.list li { display: grid; grid-template-columns: 32px 1fr; gap: 0 20px; padding: 20px 0; border-top: 1px solid var(--rule); }
+.list .n { color: var(--subtext0); font-variant-numeric: tabular-nums; }
+.list h2 { margin: 0 0 6px; font-size: 18px; line-height: 24px; letter-spacing: 0.07em; }
+.list h2 a { color: inherit; text-decoration: none; }
+.list h2 a:hover { color: var(--link); }
+.list p { margin: 0; }
+</style>
+</head>
+<body>
+<main>
+  <div class="top"><span data-mark="wordmark"></span><button class="btn btn-ghost btn-sm theme-toggle" type="button">Theme</button></div>
+  <h1 class="display-lg">Five directions for the home page</h1>
+  <p class="lede">Same copy, same design system, five answers to what the first screen should do. Each page has its own theme toggle and remembers its choice.</p>
+  <ol class="list">
+    <li><span class="n">1</span><div><h2><a href="v1-specification.html">The specification</a></h2><p class="copy">Reads like the document a client will receive. Numbered clauses, a title block, the contents as navigation. Light by default.</p></div></li>
+    <li><span class="n">2</span><div><h2><a href="v2-territory.html">The territory</a></h2><p class="copy">Thirty-one communities projected from their coordinates, linked out from Yellowknife on load. Advice from inside the territory.</p></div></li>
+    <li><span class="n">3</span><div><h2><a href="v3-stone.html">The stone</a></h2><p class="copy">The mark at poster scale, filled with the site's own grit texture. Three words under it. Everything else quiet and narrow.</p></div></li>
+    <li><span class="n">4</span><div><h2><a href="v4-record.html">The record</a></h2><p class="copy">Proof before pitch. The first screen is a table of work, scale and outcome. Tabs hold the rest.</p></div></li>
+    <li><span class="n">5</span><div><h2><a href="v5-rail.html">Two grounds</a></h2><p class="copy">A fixed dark rail that is the contact card, beside light scrolling content. The toggle swaps the two.</p></div></li>
+  </ol>
+</main>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en" data-default="blackwater">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BlackMatter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="bundle.css">
+<link rel="stylesheet" href="shared.css">
+<script src="shared.js"></script>
+<script src="copy.js"></script>
+<style>
+.wrap { padding-inline: 16px; }
+@media (min-width: 720px) { .wrap { padding-inline: 48px; } }
+.top { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-block: 18px; position: absolute; inset-inline: 0; top: 0; z-index: 3; }
+.top [data-mark="stone"] { height: 26px; }
+.top nav { display: flex; gap: 22px; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; }
+.top nav a { color: var(--subtext1); text-decoration: none; }
+.top nav a:hover { color: var(--text); }
+@media (max-width: 720px) { .top nav { display: none; } }
+.opening { position: relative; min-height: 100svh; display: grid; align-items: end; overflow: hidden; padding-top: 96px; padding-bottom: 64px; }
+.map { position: absolute; right: 0; top: 0; height: 100%; width: 50vw; pointer-events: none; }
+.map svg { height: 100%; width: 100%; display: block; }
+.opening-copy { position: relative; z-index: 2; max-width: min(620px, 48%); }
+.opening-copy h1 { margin: 0 0 24px; max-width: 12ch; }
+.actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 28px; }
+@media (max-width: 720px) {
+  .opening { display: block; padding-top: 84px; min-height: 0; }
+  .map { position: static; width: 100%; height: 58vh; margin-bottom: 24px; }
+}
+.band { padding-block: 72px; border-top: 1px solid var(--rule); }
+.band h2 { margin: 0 0 36px; }
+.band .intro { margin: -16px 0 36px; }
+.three { display: grid; gap: 36px 40px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); max-width: 1100px; }
+.three h3 { margin: 0 0 8px; padding-top: 12px; border-top: 1px solid var(--rule-strong); }
+.three p { margin: 0; }
+.eight { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 28px 40px; list-style: none; padding: 0; margin: 0; max-width: 1100px; }
+.eight h3 { margin: 0 0 6px; font-size: 14px; line-height: 20px; letter-spacing: 0.08em; padding-top: 10px; border-top: 1px solid var(--rule); }
+.eight p { margin: 0; }
+.steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 36px 40px; list-style: none; padding: 0; margin: 0; counter-reset: s; max-width: 1100px; }
+.steps li { border-top: 1px solid var(--rule-strong); padding-top: 12px; }
+.steps li::before { counter-increment: s; content: counter(s); display: block; color: var(--accent); font-size: 14px; font-weight: 600; margin-bottom: 10px; font-variant-numeric: tabular-nums; }
+.steps h3 { margin: 0 0 6px; }
+.steps p { margin: 0; }
+.rec { columns: 2; column-gap: 48px; list-style: none; padding: 0; margin: 0; max-width: 1100px; }
+@media (max-width: 760px) { .rec { columns: 1; } }
+.rec li { break-inside: avoid; padding: 12px 0; border-bottom: 1px solid var(--rule); font-size: 15px; line-height: 23px; color: var(--subtext1); }
+.contact-line { font-size: clamp(22px, 4.6vw, 52px); font-weight: 300; letter-spacing: 0.02em; text-decoration: none; color: var(--link); overflow-wrap: anywhere; }
+.contact-line:hover { color: var(--link-hover); }
+.foot { padding-block: 24px 40px; border-top: 1px solid var(--rule); display: flex; justify-content: space-between; gap: 16px; font-size: 13px; color: var(--subtext0); flex-wrap: wrap; }
+
+/* the map: hairline graticule, petal communities, links drawn out from Yellowknife once on load */
+.map .grat { stroke: var(--rule-strong); stroke-width: 1; opacity: 0.6; }
+.map .grat-label { fill: var(--subtext0); font-size: 11px; opacity: 0.8; }
+.map .link { stroke: var(--overlay2); stroke-width: 1; fill: none; opacity: 0.75; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.map .dot { fill: var(--subtext0); }
+.map .yk { fill: var(--accent); }
+.map .ring { fill: none; stroke: var(--accent); stroke-width: 1; opacity: 0.6; }
+.map .name { fill: var(--subtext1); font-size: 12.5px; }
+.map .name.yk-name { fill: var(--text); font-weight: 600; font-size: 12px; }
+@media (prefers-reduced-motion: no-preference) {
+  .map .link { animation: draw 1.1s cubic-bezier(.2,.7,.2,1) forwards; animation-delay: var(--d, 0s); }
+  .map .dot, .map .name { opacity: 0; animation: appear .4s ease-out forwards; animation-delay: calc(var(--d, 0s) + .9s); }
+}
+@media (prefers-reduced-motion: reduce) { .map .link { stroke-dashoffset: 0; } }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@keyframes appear { to { opacity: 1; } }
+</style>
+</head>
+<body>
+<header class="top wrap">
+  <a href="#top" class="quiet" aria-label="BlackMatter, top of page"><span data-mark="stone"></span></a>
+  <nav aria-label="Site">
+    <a href="#advisory">Advisory</a><a href="#experience">Experience</a><a href="#method">Method</a><a href="#record">Record</a><a href="#contact">Contact</a>
+  </nav>
+  <button class="btn btn-ghost btn-sm theme-toggle" type="button">Theme</button>
+</header>
+
+<main id="top">
+  <section class="opening wrap">
+    <div class="map" id="map" aria-hidden="true"></div>
+    <div class="opening-copy">
+      <h1 class="display-xl">Advice from inside the territory.</h1>
+      <p class="lede" id="lede"></p>
+      <div class="actions"><a class="btn btn-accent" id="cta" href="#">Request a proposal</a><a class="btn btn-ghost" href="#record">See the record</a></div>
+    </div>
+  </section>
+
+  <section class="band wrap" id="advisory">
+    <h2>What the advice covers</h2>
+    <p class="copy intro" id="problem"></p>
+    <div class="three" id="advisory-list"></div>
+  </section>
+
+  <section class="band wrap" id="experience">
+    <h2>Where the experience is</h2>
+    <ul class="eight" id="experience-list"></ul>
+  </section>
+
+  <section class="band wrap" id="method">
+    <h2>How an engagement runs</h2>
+    <ol class="steps" id="method-list"></ol>
+  </section>
+
+  <section class="band wrap" id="record">
+    <h2>The record</h2>
+    <p class="copy intro">Every line is drawn from work done. Nothing names a client or an employer.</p>
+    <ul class="rec" id="record-list"></ul>
+  </section>
+
+  <section class="band wrap" id="contact">
+    <h2>Contact</h2>
+    <p class="copy">Tell us what you need, what it has to do for the business, and when. We reply within two business days.</p>
+    <p style="margin:24px 0 0"><a class="contact-line" id="email" href="#">hello@blackmatter.ca</a></p>
+  </section>
+</main>
+<footer class="foot wrap"><span>BlackMatter</span><span>Yellowknife, Northwest Territories</span></footer>
+
+<script>
+(function () {
+  var B = window.BM, esc = function (s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;'); };
+  document.getElementById('lede').textContent = B.lede;
+  document.getElementById('problem').textContent = B.problem;
+  document.getElementById('advisory-list').innerHTML = B.advisory.map(function (a) { return '<div><h3>' + esc(a.title) + '</h3><p class="copy">' + esc(a.body) + '</p></div>'; }).join('');
+  document.getElementById('experience-list').innerHTML = B.experience.map(function (a) { return '<li><h3>' + esc(a.title) + '</h3><p class="small">' + esc(a.short) + '</p></li>'; }).join('');
+  document.getElementById('method-list').innerHTML = B.method.map(function (a) { return '<li><h3>' + esc(a.title) + '</h3><p class="small">' + esc(a.body) + '</p></li>'; }).join('');
+  document.getElementById('record-list').innerHTML = B.recordProse.map(function (r) { return '<li>' + esc(r) + '</li>'; }).join('');
+  document.getElementById('email').href = 'mailto:' + B.email; document.getElementById('email').textContent = B.email;
+  document.getElementById('cta').href = B.mailto;
+
+  // The territory: communities by latitude and longitude, projected with a simple cosine correction at 65N.
+  var C = [
+    ['Yellowknife', 62.454, -114.372, 'yk'], ['Dettah', 62.413, -114.303], ['Behchokǫ̀', 62.803, -116.047], ['Whatì', 63.146, -117.268],
+    ['Gamètì', 64.113, -117.330], ['Wekweètì', 64.190, -114.177], ['Łutselk’e', 62.406, -110.733, 'l'],
+    ['Fort Resolution', 61.171, -113.672], ['Hay River', 60.816, -115.800, 'l'], ['Enterprise', 60.558, -116.137], ['Kakisa', 60.933, -117.420],
+    ['Fort Providence', 61.351, -117.660], ['Fort Smith', 60.004, -111.890, 'l'], ['Fort Simpson', 61.862, -121.353, 'l'], ['Jean Marie River', 61.527, -120.630],
+    ['Nahanni Butte', 61.033, -123.383], ['Fort Liard', 60.240, -123.470, 'l'], ['Wrigley', 63.221, -123.433], ['Tulita', 64.904, -125.575],
+    ['Délı̨nę', 65.187, -123.424], ['Norman Wells', 65.282, -126.833, 'l'], ['Fort Good Hope', 66.258, -128.631], ['Colville Lake', 67.036, -126.083],
+    ['Fort McPherson', 67.439, -134.883], ['Tsiigehtchic', 67.433, -133.742], ['Inuvik', 68.360, -133.723, 'l'], ['Aklavik', 68.219, -135.011],
+    ['Tuktoyaktuk', 69.445, -133.034, 'l'], ['Paulatuk', 69.351, -124.075], ['Ulukhaktok', 70.736, -117.772, 'l'], ['Sachs Harbour', 71.985, -125.248, 'l']
+  ];
+  var lonMin = -136.6, latMax = 72.6, k = 50, cosf = Math.cos(65 * Math.PI / 180), m = 18;
+  var W = Math.round(27.4 * cosf * k) + 2 * m + 80, H = Math.round(13.4 * k) + 2 * m;
+  var px = function (lon) { return m + (lon - lonMin) * cosf * k; }, py = function (lat) { return m + (latMax - lat) * k; };
+  var yk = C[0], x0 = px(yk[2]), y0 = py(yk[1]);
+  var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="xMaxYMid meet">';
+  [60, 65, 70].forEach(function (lat) { var y = py(lat); s += '<line class="grat" x1="0" x2="' + W + '" y1="' + y + '" y2="' + y + '"/><text class="grat-label" x="' + (W - 6) + '" y="' + (y - 5) + '" text-anchor="end">' + lat + '°N</text>'; });
+  var maxd = 0, pts = C.map(function (c) { var x = px(c[2]), y = py(c[1]), d = Math.hypot(x - x0, y - y0); if (d > maxd) maxd = d; return { c: c, x: x, y: y, d: d }; });
+  pts.forEach(function (p) { if (p.c[3] === 'yk') return; var delay = (p.d / maxd * 0.9).toFixed(2); s += '<line class="link" pathLength="1" style="--d:' + delay + 's" x1="' + x0 + '" y1="' + y0 + '" x2="' + p.x + '" y2="' + p.y + '"/>'; });
+  pts.forEach(function (p) {
+    var delay = (p.d / maxd * 0.9).toFixed(2);
+    if (p.c[3] === 'yk') { s += '<circle class="ring" cx="' + p.x + '" cy="' + p.y + '" r="12"/><circle class="dot yk" cx="' + p.x + '" cy="' + p.y + '" r="5"/><text class="name yk-name" x="' + (p.x + 16) + '" y="' + (p.y + 4) + '">Yellowknife</text>'; return; }
+    s += '<circle class="dot" style="--d:' + delay + 's" cx="' + p.x + '" cy="' + p.y + '" r="3.2"/>';
+    if (p.c[3] === 'l') { var right = p.x > W - 110; s += '<text class="name" style="--d:' + delay + 's" x="' + (right ? p.x - 8 : p.x + 8) + '" y="' + (p.y + 4) + '"' + (right ? ' text-anchor="end"' : '') + '>' + esc(p.c[0]) + '</text>'; }
+  });
+  s += '</svg>';
+  document.getElementById('map').innerHTML = s;
+})();
+</script>
+</body>
+</html>

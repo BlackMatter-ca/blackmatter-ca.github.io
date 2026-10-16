@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en" data-default="blackwater">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BlackMatter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="bundle.css">
+<link rel="stylesheet" href="shared.css">
+<script src="shared.js"></script>
+<script src="copy.js"></script>
+<style>
+.rail { position: fixed; inset-block: 0; left: 0; width: 300px; background: var(--base); color: var(--text); display: flex; flex-direction: column; gap: 40px; padding: 28px 28px 24px; border-right: 1px solid var(--rule); overflow-y: auto; }
+.rail nav { display: flex; flex-direction: column; gap: 12px; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; }
+.rail nav a { color: var(--subtext1); text-decoration: none; }
+.rail nav a:hover { color: var(--text); }
+.reach { margin-top: auto; display: flex; flex-direction: column; gap: 10px; font-size: 14px; line-height: 21px; color: var(--subtext1); }
+.reach a.mail { color: var(--link); text-decoration: none; font-size: 15px; overflow-wrap: anywhere; }
+.reach a.mail:hover { color: var(--link-hover); }
+.reach .btn { align-self: flex-start; margin-top: 8px; }
+.rail .theme-toggle { align-self: flex-start; margin-top: 4px; }
+main { margin-left: 300px; background: var(--base); color: var(--text); min-height: 100svh; padding: 72px 56px 96px; }
+main h1 { margin: 0 0 28px; max-width: 18ch; }
+.sec { padding-top: 48px; margin-top: 56px; border-top: 1px solid var(--rule); }
+.sec h2 { margin: 0 0 28px; }
+.def { display: grid; grid-template-columns: minmax(160px, 240px) minmax(0, 60ch); gap: 0 40px; }
+.def h3 { margin: 0; padding-top: 12px; border-top: 1px solid var(--rule); }
+.def p { margin: 0 0 24px; padding-top: 12px; border-top: 1px solid var(--rule); }
+.def ol { counter-reset: s; list-style: none; padding: 0; margin: 0; display: contents; }
+.def li { display: contents; }
+.def li h3::before { counter-increment: s; content: counter(s) "  "; color: var(--accent); }
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 8px 40px; list-style: none; padding: 0; margin: 0; max-width: 900px; }
+.two li { padding: 10px 0; border-top: 1px solid var(--rule); }
+.two h3 { margin: 0 0 2px; font-size: 14px; line-height: 20px; letter-spacing: 0.08em; }
+.two p { margin: 0; }
+.rec { list-style: none; padding: 0; margin: 0; max-width: 72ch; }
+.rec li { padding: 12px 0; border-top: 1px solid var(--rule); font-size: 15px; line-height: 23px; color: var(--subtext1); }
+@media (max-width: 860px) {
+  .rail { position: static; width: auto; border-right: 0; border-bottom: 1px solid var(--rule); gap: 24px; }
+  .rail nav { flex-direction: row; flex-wrap: wrap; gap: 8px 18px; }
+  .reach { margin-top: 0; }
+  main { margin-left: 0; padding: 48px 16px 80px; }
+  .def { grid-template-columns: 1fr; }
+  .def p { border-top: 0; padding-top: 6px; }
+}
+</style>
+</head>
+<body>
+<aside class="rail" id="rail" data-theme="blackwater">
+  <a href="#top" class="quiet" aria-label="BlackMatter, top of page"><span data-mark="wordmark"></span></a>
+  <nav aria-label="Site">
+    <a href="#advisory">Advisory</a><a href="#experience">Experience</a><a href="#method">Method</a><a href="#record">Record</a>
+  </nav>
+  <div class="reach">
+    <a class="mail" id="email" href="#">hello@blackmatter.ca</a>
+    <span>Yellowknife, Northwest Territories</span>
+    <span>We reply within two business days.</span>
+    <a class="btn btn-accent btn-sm" id="cta" href="#">Request a proposal</a>
+    <button class="btn btn-ghost btn-sm theme-toggle" type="button">Theme</button>
+  </div>
+</aside>
+
+<main id="main" data-theme="clearwater">
+  <div id="top">
+    <h1 class="display-lg">We help you decide what to buy, what to build, and what to leave alone.</h1>
+    <p class="lede" id="lede"></p>
+    <p class="copy" id="problem" style="margin-top:16px"></p>
+  </div>
+
+  <section class="sec" id="advisory">
+    <h2>What the advice covers</h2>
+    <div class="def" id="advisory-list"></div>
+  </section>
+
+  <section class="sec" id="experience">
+    <h2>Where the experience is</h2>
+    <ul class="two" id="experience-list"></ul>
+  </section>
+
+  <section class="sec" id="method">
+    <h2>How an engagement runs</h2>
+    <div class="def"><ol id="method-list"></ol></div>
+  </section>
+
+  <section class="sec" id="record">
+    <h2>The record</h2>
+    <p class="copy" style="margin-bottom:20px">Every line is drawn from work done. Nothing names a client or an employer.</p>
+    <ul class="rec" id="record-list"></ul>
+  </section>
+</main>
+
+<script>
+(function () {
+  var B = window.BM, esc = function (s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;'); };
+  document.getElementById('lede').textContent = B.lede;
+  document.getElementById('problem').textContent = B.problem;
+  document.getElementById('advisory-list').innerHTML = B.advisory.map(function (a) { return '<h3>' + esc(a.title) + '</h3><p class="copy">' + esc(a.body) + '</p>'; }).join('');
+  document.getElementById('experience-list').innerHTML = B.experience.map(function (a) { return '<li><h3>' + esc(a.title) + '</h3><p class="small">' + esc(a.short) + '</p></li>'; }).join('');
+  document.getElementById('method-list').innerHTML = B.method.map(function (a) { return '<li><h3>' + esc(a.title) + '</h3><p class="copy">' + esc(a.body) + '</p></li>'; }).join('');
+  document.getElementById('record-list').innerHTML = B.recordProse.map(function (r) { return '<li>' + esc(r) + '</li>'; }).join('');
+  document.getElementById('email').href = 'mailto:' + B.email; document.getElementById('email').textContent = B.email;
+  document.getElementById('cta').href = B.mailto;
+
+  // Two grounds: the rail takes the page theme, the content takes the other one.
+  function split() {
+    var t = document.documentElement.dataset.theme;
+    document.getElementById('rail').dataset.theme = t;
+    document.getElementById('main').dataset.theme = t === 'blackwater' ? 'clearwater' : 'blackwater';
+  }
+  split(); document.addEventListener('bm-theme', split);
+})();
+</script>
+</body>
+</html>
