@@ -287,11 +287,50 @@ textarea.field { padding: 14px 16px; min-height: 160px; resize: vertical; }
 @media (prefers-reduced-motion: reduce) {
   .rc-enter, .rc-progress i, .rc-bar i, .rc-mark::after, .rc-opt, .rc-steps li { animation: none; transition: none; }
 }
+/* the brief, printed: US Letter */
+.pb { display: none; }
+@page { size: letter; margin: 0.7in 0.75in 0.8in; }
 @media print {
-  .top, .foot, .backdrop-texture, .backdrop-stone, .rc-intro, .rc-noprint, .rc-more, .rc-two { display: none !important; }
-  .rc-pre { max-height: none; overflow: visible; border: 0; padding: 0; color: #000; background: none; }
-  .rc-flag, .frost, .frost-deep { background: none; border-color: #999; backdrop-filter: none; }
-  .page, .rc-results { color: #000; }
+  html, body { background: #fff !important; color: #111; }
+  body > *:not(.pb) { display: none !important; }
+  .pb { display: block; position: relative; font-family: var(--font-sans); color: #111; font-size: 10pt; line-height: 1.4; }
+  .pb * { color: inherit; }
+  .pb-head { display: flex; justify-content: space-between; align-items: flex-end; padding-bottom: 10pt; border-bottom: 1.5pt solid #111; }
+  .pb-logo { width: 2.6in; height: auto; color: #111; }
+  .pb-head-r { text-align: right; }
+  .pb-kicker { font-family: var(--font-mono); font-size: 8pt; letter-spacing: 0.14em; text-transform: uppercase; }
+  .pb-meta { font-family: var(--font-mono); font-size: 8pt; letter-spacing: 0.08em; color: #555; margin-top: 3pt; }
+  .pb-title { display: flex; justify-content: space-between; align-items: flex-end; gap: 24pt; padding: 16pt 0 10pt; }
+  .pb-title h1 { font-family: var(--font-display); text-transform: uppercase; font-weight: 400; font-size: 24pt; line-height: 1; letter-spacing: 0.02em; margin: 0; }
+  .pb-org { margin: 4pt 0 0; font-size: 12pt; color: #333; }
+  .pb-verdict { display: flex; flex-direction: column; align-items: flex-end; text-align: right; flex: none; }
+  .pb-verdict-t { font-family: var(--font-display); text-transform: uppercase; font-size: 14pt; line-height: 1; letter-spacing: 0.03em; color: #ba4889; }
+  .pb-verdict-n { font-family: var(--font-mono); font-size: 9pt; letter-spacing: 0.1em; color: #555; margin-top: 4pt; }
+  .pb-scores { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4pt 24pt; padding: 8pt 0 10pt; border-top: 0.5pt solid #bbb; border-bottom: 0.5pt solid #bbb; }
+  .pb-score-l { display: flex; justify-content: space-between; font-size: 8.5pt; }
+  .pb-score-l b { font-family: var(--font-mono); font-weight: 400; font-size: 8pt; }
+  .pb-bar { height: 3pt; background: #e4dde2; margin-top: 2pt; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .pb-bar i { display: block; height: 100%; background: #ba4889; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .pb-sec { padding-top: 11pt; }
+  .pb-sec h2 { font-family: var(--font-display); text-transform: uppercase; font-weight: 400; font-size: 13pt; letter-spacing: 0.04em; margin: 0 0 6pt; }
+  .pb-dl { display: grid; grid-template-columns: 1.45in 1fr; gap: 3pt 12pt; margin: 0; }
+  .pb-dl > div { display: contents; }
+  .pb-dl dt { font-family: var(--font-mono); font-size: 7.5pt; letter-spacing: 0.1em; text-transform: uppercase; color: #555; padding-top: 2pt; }
+  .pb-dl dd { margin: 0; break-inside: avoid; }
+  .pb-dl-tight { grid-template-columns: 2.4in 1fr; gap: 3pt 12pt; font-size: 9.5pt; }
+  .pb-dl-tight dt { text-transform: none; letter-spacing: 0; font-family: var(--font-sans); font-size: 9pt; }
+  .pb-settle { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6pt; }
+  .pb-settle li { display: flex; gap: 10pt; break-inside: avoid; padding-left: 8pt; border-left: 2pt solid #ba4889; }
+  .pb-n { font-family: var(--font-display); font-size: 16pt; line-height: 1; color: #ba4889; flex: none; width: 14pt; }
+  .pb-settle b { display: block; font-weight: 600; }
+  .pb-settle p { margin: 2pt 0 0; }
+  .pb-also { margin: 8pt 0 0; font-size: 9.5pt; color: #333; }
+  .pb-break { break-before: page; page-break-before: always; }
+  .pb-step { break-inside: avoid; margin-top: 10pt; }
+  .pb-step h3 { font-family: var(--font-mono); font-size: 8pt; letter-spacing: 0.12em; text-transform: uppercase; color: #555; margin: 0 0 5pt; padding-bottom: 3pt; border-bottom: 0.5pt solid #ccc; }
+  .pb-foot { margin-top: 22pt; padding-top: 8pt; border-top: 0.5pt solid #bbb; font-size: 8.5pt; color: #555; }
+  .pb-foot p { margin: 0 0 3pt; }
+  .pb-foot-l { font-family: var(--font-mono); font-size: 7.5pt; letter-spacing: 0.1em; text-transform: uppercase; }
 }
 
 /* score rows: hover for why, click for what would move it */

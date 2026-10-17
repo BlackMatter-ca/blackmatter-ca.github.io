@@ -177,32 +177,46 @@ function shown(qid, a) { for (const st of visibleSteps(a)) if (visibleQs(st, a).
 function briefText(qid, a) { if (!shown(qid, a)) return null; const v = a[qid]; const m = BRIEF_LABELS[qid]; if (m && v !== undefined && m[v]) return fx(m[v], a); return answerText(qid, a); }
 function short(qid) { const q = qById(qid); return q ? q.label.replace(/\?$/, '') : qid; }
 
-export function buildBrief(r, A) {
-  const L = []; const name = A.orgName ? ` — ${A.orgName}` : '';
+export function briefData(r, A) {
   const verdict = { ok: 'Ready to scope', warn: 'Nearly ready', bad: 'Settle these first' }[r.verdict];
   const typeNames = (A.types || []).map((v) => (TYPES.find((t) => t.v === v) || {}).l).filter(Boolean);
-  L.push(`# Project brief${name}`);
-  L.push(`${localDate()} · ${CONFIG.title} · Readiness: ${verdict} (${r.overall}%)`);
+  const pageOne = [];
+  pageOne.push(['Organization', `${answerText('orgType', A) || '—'}; ${answerText('size', A) || '—'} people; sites/internet: ${answerText('conn', A) || '—'}.`]);
+  pageOne.push(['The work', typeNames.join('; ') || '—']);
+  if (A.problem) pageOne.push(['The problem and what done looks like', A.problem.trim()]);
+  if (briefText('trigger', A)) pageOne.push(['Why now', briefText('trigger', A)]);
+  pageOne.push(['Who decides', `${briefText('sponsor', A) || '—'}${A.approver ? `; spending approved by ${briefText('approver', A)}` : ''}; day-to-day owner: ${briefText('owner', A) || '—'}`]);
+  pageOne.push(['Money', `${answerText('budget', A) || '—'}; ${briefText('funding', A) || '—'}${briefText('ongoing', A) ? `; ongoing costs: ${briefText('ongoing', A)}` : ''}`]);
+  pageOne.push(['Timeline', `${briefText('deadline', A) || '—'}${A.deadlineText ? ` — ${A.deadlineText.trim()}` : ''}`]);
+  if (shown('personal', A) && answerText('personal', A)) pageOne.push(['Information involved', answerText('personal', A)]);
+  pageOne.push(['IT today', `${briefText('support', A) || '—'}${briefText('after', A) ? `; afterwards: ${briefText('after', A)}` : ''}`]);
+  const settle = r.top.map((f) => ({ t: fx(FLAGS[f.id].t, A), d: fx(FLAGS[f.id].d, A), w: fx(FLAGS[f.id].w, A), s: f.s }));
+  const all = [...r.rest, ...r.noted];
+  const also = all.slice(0, 8).map((f) => fx(FLAGS[f.id].t, A));
+  const alsoMore = all.length > 8 ? all.length - 8 : 0;
+  const steps = visibleSteps(A).map((s) => ({ title: s.title, rows: visibleQs(s, A).map((q) => { const t = answerText(q.id, A); return t ? [short(q.id), t] : null; }).filter(Boolean) })).filter((s) => s.rows.length);
+  const contact = [A.contactName, A.contactRole, A.contactEmail].filter(Boolean);
+  const scores = Object.keys(DIMS).filter((k) => r.scores[k] !== null).map((k) => [DIMS[k], r.scores[k]]);
+  return { orgName: A.orgName || '', date: localDate(), verdict, overall: r.overall, scores, pageOne, settle, also, alsoMore, steps, contact,
+    footer: `Prepared by the organization with the ${CONFIG.title} (${CONFIG.consultantName}). A starting point for a conversation, not a specification, and not legal or privacy advice.` };
+}
+
+export function buildBrief(r, A) {
+  const B = briefData(r, A); const L = [];
+  L.push(`# Project brief${B.orgName ? ` — ${B.orgName}` : ''}`);
+  L.push(`${B.date} · ${CONFIG.title} · Readiness: ${B.verdict} (${B.overall}%)`);
   L.push('');
   L.push('## Page one');
-  L.push(`**Organization:** ${answerText('orgType', A) || '—'}; ${answerText('size', A) || '—'} people; sites/internet: ${answerText('conn', A) || '—'}.`);
-  L.push(`**The work:** ${typeNames.join('; ') || '—'}`);
-  if (A.problem) L.push(`**The problem and what done looks like:** ${A.problem.trim()}`);
-  if (briefText('trigger', A)) L.push(`**Why now:** ${briefText('trigger', A)}`);
-  L.push(`**Who decides:** ${briefText('sponsor', A) || '—'}${A.approver ? `; spending approved by ${briefText('approver', A)}` : ''}; day-to-day owner: ${briefText('owner', A) || '—'}`);
-  L.push(`**Money:** ${answerText('budget', A) || '—'}; ${briefText('funding', A) || '—'}${briefText('ongoing', A) ? `; ongoing costs: ${briefText('ongoing', A)}` : ''}`);
-  L.push(`**Timeline:** ${briefText('deadline', A) || '—'}${A.deadlineText ? ` — ${A.deadlineText.trim()}` : ''}`);
-  if (shown('personal', A) && answerText('personal', A)) L.push(`**Information involved:** ${answerText('personal', A)}`);
-  L.push(`**IT today:** ${briefText('support', A) || '—'}${briefText('after', A) ? `; afterwards: ${briefText('after', A)}` : ''}`);
+  for (const [k, v] of B.pageOne) L.push(`**${k}:** ${v}`);
   L.push('');
   L.push('**Settle first:**');
-  r.top.forEach((f, i) => L.push(`${i + 1}. **${fx(FLAGS[f.id].t, A)}** — ${fx(FLAGS[f.id].d, A)}`));
-  { const all = [...r.rest, ...r.noted]; if (all.length) { L.push(''); L.push(`**Also worth knowing:** ${all.slice(0, 8).map((f) => fx(FLAGS[f.id].t, A)).join('; ')}${all.length > 8 ? `; and ${all.length - 8} more in the full results` : ''}.`); } }
+  B.settle.forEach((f, i) => L.push(`${i + 1}. **${f.t}** — ${f.d}`));
+  if (B.also.length) { L.push(''); L.push(`**Also worth knowing:** ${B.also.join('; ')}${B.alsoMore ? `; and ${B.alsoMore} more in the full results` : ''}.`); }
   L.push('');
   L.push('---'); L.push('## Full answers');
-  for (const s of visibleSteps(A)) { const rows = visibleQs(s, A).map((q) => { const t = answerText(q.id, A); return t ? `- ${short(q.id)}: ${t}` : null; }).filter(Boolean); if (rows.length) { L.push(`### ${s.title}`); L.push(...rows); L.push(''); } }
-  const c = [A.contactName, A.contactRole, A.contactEmail].filter(Boolean); if (c.length) { L.push('### Contact'); L.push(`- ${c.join(' · ')}`); L.push(''); }
-  L.push(`_Prepared by the organization with the ${CONFIG.title} (${CONFIG.consultantName}). A starting point for a conversation, not a specification, and not legal or privacy advice._`);
+  for (const s of B.steps) { L.push(`### ${s.title}`); for (const [q, a] of s.rows) L.push(`- ${q}: ${a}`); L.push(''); }
+  if (B.contact.length) { L.push('### Contact'); L.push(`- ${B.contact.join(' · ')}`); L.push(''); }
+  L.push(`_${B.footer}_`);
   return L.join('\n');
 }
 

@@ -3,7 +3,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { CONFIG, FLAGS, DIMS, EXCLUSIVE, isPub, isIndig } from './data';
-import { evaluate, visibleSteps, visibleQs, visibleOpts, fx, hasProductWord, sevLabel, VERDICTS, nextStep, VENDOR_QUESTIONS, buildBrief, slug, dimExplain, DIM_ADVICE } from './engine';
+import { evaluate, visibleSteps, visibleQs, visibleOpts, fx, hasProductWord, sevLabel, VERDICTS, nextStep, VENDOR_QUESTIONS, buildBrief, slug, dimExplain, DIM_ADVICE, briefData } from './engine';
+import PrintBrief from './PrintBrief';
 
 const KEY = 'prc.answers.v3';
 const STEP_KEY = 'prc.step.v3';
@@ -178,6 +179,7 @@ function Question({ q, answers, set }) {
 function Results({ answers, set, steps, onBack, onReset }) {
   const r = useMemo(() => evaluate(answers), [answers]);
   const brief = useMemo(() => buildBrief(r, answers), [r, answers]);
+  const B = useMemo(() => briefData(r, answers), [r, answers]);
   const V = VERDICTS[r.verdict];
   const [grown, setGrown] = useState(false);
   const [openDim, setOpenDim] = useState(null);
@@ -278,6 +280,7 @@ function Results({ answers, set, steps, onBack, onReset }) {
         <p className="rc-help" role="status" aria-live="polite" style={{ minHeight: 20 }}>{status}</p>
       </section>
 
+      <PrintBrief B={B} />
       <div className="rc-nav rc-noprint">
         <button type="button" className="btn btn-quiet btn-sm" onClick={onBack}>Back to the questions</button>
         <button type="button" className="btn btn-quiet btn-sm" onClick={onReset}>Start over</button>
