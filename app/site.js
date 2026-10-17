@@ -133,14 +133,8 @@ export const servicesPage = {
 export const about = {
   who: 'Shylo Foster (she/her), in Yellowknife, Northwest Territories.',
   story: [
-    'I have spent twenty years keeping technology running for organisations that cannot afford for it to stop. Three years in Ontario, where I led a backup and recovery program covering about eighty servers across three regions and wrote the standard others followed. Then thirteen in the North running infrastructure for a police organisation: the storage behind a territory’s front-line radio network, a monitoring platform for remote radio sites built because the vendor’s did not meet security requirements, and technical lead for the in-car computing fleet across the Northwest Territories, adapted from national specifications to northern conditions. Since 2022, service management for a large public organisation: one of the global administrators of a government-wide service platform, the Microsoft 365 approvals that replaced paper forms, a library of about a hundred automated software packages, and lead on the remediation of an email-borne security incident across about 120 computers.',
-    'Alongside that, a decade on non-profit boards in Yellowknife: grant writing and multi-year funder reporting on projects over $150,000. I know what a volunteer board meeting is like when the IT item comes up and nobody at the table can say whether the backups work.',
-  ],
-  timeline: [
-    { when: '2004', title: 'Technician', body: 'Started with a couple of industry certifications. Everything since was learned by doing it.' },
-    { when: 'Ontario · 3 years', title: 'Backup and recovery program', body: 'About eighty servers across three regions; live systems rebuilt from backup to prove it; the standard others followed.' },
-    { when: 'The North · 13 years', title: 'Police infrastructure', body: 'Storage behind a territory’s front-line radio network; a remote-site monitoring platform; technical lead for the in-car computing fleet.' },
-    { when: '2022 onward', title: 'Service management', body: 'Global administrator of a government-wide service platform; Microsoft 365 approvals; about a hundred software packages; incident remediation across about 120 computers.' },
+    'I have spent twenty years keeping technology running for organisations that cannot afford for it to stop: a few years in Ontario, then most of it in the North, inside government and police organisations where the nearest spare part was a flight away and the systems had to hold without someone standing beside them. The work covered the whole stack a small organisation depends on: the servers and the backups behind them, the security that had to be enforced rather than written, the service desk, the Microsoft tenant, and the automation that took paper and repetition out of other people’s days.',
+    'Alongside that, a decade on non-profit boards in Yellowknife, with the grant writing and funder reporting that come with it. I know what a volunteer board meeting is like when the IT item comes up and nobody at the table can say whether the backups work.',
   ],
   why: 'Small organisations in the North get technology help in two forms: a southern vendor who sells something, or a managed service provider who keeps things running but is not paid to plan. The gap is the fixed piece of work in between: proving the backups, writing the business case, building the one approval flow, packaging the software properly, answering the insurer. That is the kind of work I have done inside large organisations for twenty years, and it is all BlackMatter does.',
   how: [
@@ -151,5 +145,5 @@ export const about = {
     { title: 'Said plainly when I have not done it', body: 'Each service says whether I have delivered it before. Where I have not, the first client’s price reflects it.' },
   ],
   not: 'Not a managed service provider. Not on call: I do the work outside business hours and reply within two business days. Not Indigenous-owned, which matters for some procurement preferences, and I would rather you knew before you asked. Not a lawyer, a privacy officer or a certifier.',
-  credentials: 'No degree. I started as a technician in 2004 with a couple of industry certifications, and everything since was learned by doing it: technician, network administrator, infrastructure lead, acting manager of teams of three to five. Held a federal Top-Secret clearance for thirteen years. Twenty years of doing the work, and references on request.',
+  credentials: 'No degree. I started as a technician with a couple of industry certifications, and everything since was learned by doing it: technician, administrator, infrastructure lead, acting manager. Twenty years of doing the work, and references on request.',
 };

@@ -10,7 +10,7 @@ export default function About() {
       <Backdrop />
       <Top current="/about/" />
 
-      <section className="wrap split" style={{ paddingTop: 96, paddingBottom: 72, gap: '40px 80px' }}>
+      <section className="wrap split" style={{ paddingTop: 96, paddingBottom: 96, gap: '40px 80px' }}>
         <div className="label-col" style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
           <p className="eyebrow">About</p>
           <h1 className="h1">BlackMatter is me.</h1>
@@ -23,17 +23,6 @@ export default function About() {
         </div>
       </section>
 
-      <section className="wrap" style={{ paddingBottom: 96 }}>
-        <ol className="grid-4 steps" style={{ gap: 24 }}>
-          {about.timeline.map((t) => (
-            <li key={t.title} style={{ paddingTop: 20, gap: 10 }}>
-              <span className="n">{t.when}</span>
-              <h2 className="h3" style={{ fontSize: 18 }}>{t.title}</h2>
-              <p className="p-sm" style={{ fontSize: 14 }}>{t.body}</p>
-            </li>
-          ))}
-        </ol>
-      </section>
 
       <section className="band">
         <div className="wrap split" style={{ paddingTop: 80, paddingBottom: 80, gap: '32px 80px' }}>

@@ -98,8 +98,8 @@
 .top-links > a:not(.btn) { color: var(--ink-2); text-decoration: none; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; min-height: 44px; display: inline-flex; align-items: center; border-bottom: 2px solid transparent; }
 .top-links > a:not(.btn):hover { color: var(--ink); }
 .top-links > a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--fill); }
-.theme-toggle { background: none; border: 1px solid var(--rule); color: var(--ink-3); cursor: pointer; padding: 0 10px; min-height: 36px; border-radius: var(--radius-md); font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
-.theme-toggle:hover { color: var(--ink); border-color: var(--ink-3); }
+.theme-toggle { background: none; border: 0; color: var(--ink-2); cursor: pointer; width: 44px; height: 44px; padding: 0; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; }
+.theme-toggle:hover { color: var(--ink); background: var(--frost); }
 .theme-toggle .if-dark { display: inline; } .theme-toggle .if-light { display: none; }
 :root[data-theme="light"] .theme-toggle .if-dark { display: none; }
 :root[data-theme="light"] .theme-toggle .if-light { display: inline; }
