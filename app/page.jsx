@@ -22,15 +22,14 @@ export default function Home() {
               <Link href="/services/" className="btn btn-quiet">Services</Link>
             </div>
           </div>
-          <ol className="ledger mt-14 list-none p-0">
-            {services.map((s, i) => (
+          {/* The five questions from the Services page, one ruled row each. Not a sequence, so no numbers. */}
+          <ul className="ledger ask-list mt-14 list-none p-0">
+            {services.map((s) => (
               <li key={s.title}>
-                <span className="label n">{String(i + 1).padStart(2, '0')}</span>
                 <span className="t"><Link href="/services/">{s.title}</Link></span>
-                <span className="d">{s.short ?? s.body}</span>
               </li>
             ))}
-          </ol>
+          </ul>
         </div>
       </section>
       <Strip />

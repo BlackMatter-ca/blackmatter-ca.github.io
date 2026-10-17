@@ -11,20 +11,24 @@ export const site = {
   ],
 };
 
+// Services: five situations a reader scans for their own. The title is the reader's question; the body is the answer.
+// Approved copy. Do not add words, numbers, tools, deliverable names or past-work references here.
 export const services = [
-  { title: 'Infrastructure and continuity', short: 'Virtualization, storage, backup and tested recovery.', body: 'Virtualization, storage and backup designed to stay up, with recovery that has been tested rather than assumed. Lifecycle planning and the business cases that fund it.' },
-  { title: 'Security readiness and response', short: 'Enforced baselines, audits, remediation at scale.', body: 'Baselines that are enforced, not just written. Audits, remediation at scale, and incident reporting leadership can act on.' },
-  { title: 'Microsoft 365 and automation', short: 'Teams governance, approvals, Graph integrations.', body: 'Teams governance, approvals and provisioning on the Power Platform, with integrations built on the Microsoft Graph. Paper forms and ticket queues replaced with workflows.' },
-  { title: 'Service management', short: 'ITSM design, integrations and reporting.', body: 'ITSM platform design and administration, API integrations, template-driven automation and the reporting that shows whether service is improving.' },
-  { title: 'Endpoint management', short: 'Imaging and deployment standards that hold.', body: 'Imaging, application packaging and deployment standards for fleets spread across a territory, so technicians install once and it holds.' },
-  { title: 'Monitoring and reporting', short: 'Monitoring, dashboards and data audits.', body: 'Custom monitoring for the systems vendors do not cover, real-time dashboards for the people on shift, and data audits that give each department its own clear picture.' },
-  { title: 'Documentation and knowledge', short: 'Runbooks written for the people who use them.', body: 'Procedures, runbooks and reference material written for the audience that will use it, from the service desk to the executive table.' },
-  { title: 'Project leadership and advisory', short: 'Technical lead, vendors, proposals, funding.', body: 'Technical lead for capital and migration projects, vendor and supplier management, specifications, proposals and funding submissions.' },
+  { title: 'If we lost everything tomorrow, would we get it back?', body: 'I check whether your backups would bring you back, not just whether they run. Then I write down how to get back, in words your own people can follow.' },
+  { title: 'Someone\u2019s asking how protected we are. What do we tell them?', body: 'Insurers, funders and clients ask. I find out where you actually stand on security and help you answer in words you can stand behind.' },
+  { title: 'What should IT cost us? Is that new tool worth it?', body: 'I turn what you have into a number and a case leadership can approve. Before you buy, I give you an independent read, including whether AI fits at all.' },
+  { title: 'Why does so much of the week go to paper and re-typing?', body: 'Forms, re-keying, chasing signatures. I replace those manual steps with simple workflows, using what you already pay for.' },
+  { title: 'How do I ever clear the IT backlog?', body: 'Every install, update and fix lands on you. I standardise how software is installed and kept current, then hand you the standard, so you fix things once, not machine by machine.' },
 ];
+
+// The terms of every engagement. Shown once, at the foot of the Services page.
+export const scope = 'Every engagement starts with a scoping conversation and a written proposal; the specifics belong there. I work part-time, fixed scope, no after-hours response. When the work is done, I hand it over so your people can carry on without me.';
 
 // Home lede and the shape of an engagement. Every claim below is drawn from the record; nothing names a client or an employer.
 export const lede = 'A consultancy in Yellowknife, Northwest Territories, for organizations that know what they need and intend to get it done once. We capture the requirement in full, build to it, document it, and leave.';
 
+// No page imports `process` any more: the Services page dropped its "How an engagement runs" block on 2026-10-17.
+// Kept for reference; its "we" and "named deliverables" language predates the first-person, fixed-scope copy.
 export const process = [
   { title: 'Capture', body: 'Needs, business requirements, constraints and the definition of done, written up and agreed before anything is built. Quality output does not come from a vague brief, so we do not start from one.' },
   { title: 'Proposal', body: 'Fixed scope, named deliverables, a price. You know what you are getting before you sign.' },

@@ -110,6 +110,19 @@
 .ledger a { color: inherit; text-decoration: none; }
 .ledger a:hover { color: var(--accent); }
 
+/* the questions: five situations on the Services page. No numbers; the question is the device.
+   Phone: question over answer. Wide: question left, answer right, both starting on the same line. */
+.ask { border-top: 1px solid var(--rule-strong); max-width: 1200px; }
+.ask li { display: grid; grid-template-columns: 1fr; gap: var(--space-4) var(--space-8); padding: var(--space-6) 0; border-bottom: 1px solid var(--rule); align-items: start; }
+@media (min-width: 800px) { .ask li { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 0 var(--space-12); padding: var(--space-8) 0; } }
+.ask .q { font-size: clamp(26px, 3.4vw, 42px); line-height: 1.02; max-width: 24ch; text-wrap: balance; overflow-wrap: anywhere; }
+.ask .a { color: var(--ink-2); font-size: 17px; line-height: 27px; max-width: 52ch; }
+@media (min-width: 800px) { .ask .a { padding-top: 0.35em; } }
+
+/* the same questions on the home page: one ruled row each, nothing beside them */
+.ledger.ask-list li { grid-template-columns: 1fr; padding: var(--space-4) 0; }
+.ledger.ask-list .t { font-size: clamp(22px, 2.6vw, 30px); max-width: 30ch; text-wrap: balance; }
+
 /* the record: numbered, one column of prose */
 .ledger.record li { grid-template-columns: 48px 1fr; }
 .ledger.record .r { color: var(--ink-2); font-size: 17px; line-height: 26px; }
