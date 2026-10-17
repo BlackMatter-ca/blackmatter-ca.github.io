@@ -209,6 +209,7 @@ function Results({ answers, set, steps, onBack, onReset }) {
         <p className="eyebrow">Your readiness picture</p>
         <h2 className="h1">{V.t}</h2>
         <p className="p-lg measure">{fx(V.d, r)}</p>
+        <p className="rc-help measure">This is a self-assessment scored from what you entered. I was not part of it and have not checked the answers, so the result is a starting point, not a guarantee of anything.</p>
       </section>
 
       <section className="frost rc-panel">

@@ -198,7 +198,7 @@ export function briefData(r, A) {
   const contact = [A.contactName, A.contactRole, A.contactEmail].filter(Boolean);
   const scores = Object.keys(DIMS).filter((k) => r.scores[k] !== null).map((k) => [DIMS[k], r.scores[k]]);
   return { orgName: A.orgName || '', date: localDate(), verdict, overall: r.overall, scores, pageOne, settle, also, alsoMore, steps, contact,
-    footer: `Prepared by the organization with the ${CONFIG.title} (${CONFIG.consultantName}). A starting point for a conversation, not a specification, and not legal or privacy advice.` };
+    footer: `Prepared by the organization with the ${CONFIG.title}, a self-assessment tool published by ${CONFIG.consultantName}. ${CONFIG.consultantName} did not take part in answering it, has not verified the answers, and gives no guarantee about the results. A starting point for a conversation, not a specification, and not legal or privacy advice.` };
 }
 
 export function buildBrief(r, A) {
