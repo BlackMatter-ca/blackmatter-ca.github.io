@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { Backdrop, Top, Foot } from '../Chrome';
 import { site, contact, terms } from '../site';
 
@@ -18,7 +19,7 @@ export default function Contact() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14, paddingTop: 24, borderTop: '1px solid var(--rule-soft)' }}>
             <h2 className="eyebrow">What helps me reply well</h2>
             <ul className="bullets">{contact.helps.map((h) => <li key={h}>{h}</li>)}</ul>
-            <p className="p-sm">{contact.brief}</p>
+            <p className="p-sm">{contact.brief} <Link href="/readiness-check/" className="link-quiet" style={{ minHeight: 0, fontSize: 15 }}>Run it here.</Link></p>
           </div>
         </div>
 

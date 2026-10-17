@@ -11,7 +11,7 @@ export const site = {
     { href: '/about/', label: 'About' },
     { href: '/contact/', label: 'Contact' },
   ],
-  cta: { href: '/#ready', label: 'Readiness check' },
+  cta: { href: '/readiness-check/', label: 'Readiness check' },
 };
 
 export const terms = {

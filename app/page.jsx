@@ -20,7 +20,7 @@ export default function Home() {
           <p className="p-lg measure">{hero.lede}</p>
           <div className="actions">
             <Link href="/services/" className="btn btn-accent">See the services</Link>
-            <Link href="#ready" className="btn btn-quiet">Check whether your project is ready</Link>
+            <Link href="/readiness-check/" className="btn btn-quiet">Check whether your project is ready</Link>
           </div>
         </div>
         <figure className="hero-figure">
@@ -79,7 +79,7 @@ export default function Home() {
             <h2 className="h2">Not sure yet?</h2>
             <p className="p-lg">{readiness.body}</p>
             <div className="band-actions">
-              <Link href="#ready" className="btn btn-accent">Run the readiness check</Link>
+              <Link href="/readiness-check/" className="btn btn-accent">Run the readiness check</Link>
               <span className="p-sm" style={{ color: 'var(--ink-3)' }}>{readiness.note}</span>
             </div>
           </div>
