@@ -1,34 +1,65 @@
 import Link from 'next/link';
 import { site } from './site';
-import { Stone } from './Marks';
+import { Wordmark, Stone } from './Marks';
 import { ThemeToggle } from './Theme';
+
+// The fixed layers every page sits on: the stone texture fading in from the top, and the stone itself,
+// pinned so the page scrolls over both.
+export function Backdrop() {
+  return (
+    <>
+      <div className="backdrop-texture" aria-hidden="true" />
+      <Stone className="backdrop-stone" />
+    </>
+  );
+}
 
 export function Top({ current }) {
   return (
-    <header className="top relative z-10 flex items-center justify-between gap-4 px-4 py-4 border-b border-[var(--rule)]">
-      <Link href="/" aria-label="BlackMatter home" className="block">
-        <Stone className="block h-7 w-auto text-[var(--accent)]" />
-      </Link>
-      <nav className="nav label flex gap-6" aria-label="Site">
+    <header className="top">
+      <nav className="wrap top-nav" aria-label="Primary">
+        <Link href="/" aria-label="BlackMatter home" className="top-mark"><Wordmark className="top-wordmark" /></Link>
+        <div className="top-links">
           {site.nav.map((n) => (
             <Link key={n.href} href={n.href} aria-current={current === n.href ? 'page' : undefined}>{n.label}</Link>
           ))}
-        </nav>
-      <ThemeToggle />
+          <Link href={site.cta.href} className="btn btn-accent btn-sm">{site.cta.label}</Link>
+          <ThemeToggle />
+        </div>
+      </nav>
     </header>
   );
 }
 
-export function Strip() {
+export function Foot() {
   return (
-    <footer className="label relative z-10 flex justify-between gap-4 px-4 py-3 border-t border-[var(--rule)]">
-      <span className="text-[var(--accent)] before:content-[''] before:inline-block before:w-[7px] before:h-[7px] before:mr-2 before:bg-[var(--accent)] before:[clip-path:polygon(50%_0,100%_100%,0_100%)] before:align-[1px]">{site.name}</span>
-      <span className="text-[var(--ink-3)] text-right">Yellowknife, Northwest Territories</span>
+    <footer className="foot">
+      <div className="wrap foot-row">
+        <Wordmark className="foot-wordmark" />
+        <div className="foot-links">
+          {site.nav.map((n) => <Link key={n.href} href={n.href}>{n.label}</Link>)}
+          <a href={`mailto:${site.email}`}>{site.email}</a>
+        </div>
+        <p className="foot-note">© {new Date().getFullYear()} {site.name} · {site.place}</p>
+      </div>
     </footer>
   );
 }
 
-// The stone in the corner of the inner pages, pushed into the background.
-export function Corner() {
-  return <Stone className="stone-corner" />;
+// The closing band shared by every page: email first, limits stated.
+export function ContactBand({ children }) {
+  return (
+    <section id="contact" className="band band-tint">
+      <div className="wrap band-row">
+        <div className="band-copy">
+          <h2 className="h2">Email is best.</h2>
+          <p className="p-lg">{children}</p>
+        </div>
+        <div className="band-actions">
+          <a href={`mailto:${site.email}`} className="btn btn-accent">{site.email}</a>
+          <Link href="/contact/" className="link-quiet">What helps me reply well</Link>
+        </div>
+      </div>
+    </section>
+  );
 }

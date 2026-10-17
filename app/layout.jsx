@@ -10,8 +10,8 @@ const dinEmbossed = localFont({ src: './fonts/alte-din-1451-mittelschrift-geprae
 const mono = JetBrains_Mono({ subsets: ['latin'], weight: ['400'], variable: '--font-jetbrains' });
 
 export const metadata = {
-  title: { default: 'BlackMatter', template: '%s' },
-  description: 'A consultancy. Yellowknife, Northwest Territories.',
+  title: { default: 'BlackMatter — fixed-scope IT projects for small organisations, Yellowknife and remote', template: '%s' },
+  description: 'Fixed-scope IT projects for small organisations, Yellowknife and remote. Prove your backups restore. Get a budget number the board can vote on. Replace paper approvals. Fixed scope, written down, handed over.',
   icons: { icon: '/icon.svg' },
 };
 
