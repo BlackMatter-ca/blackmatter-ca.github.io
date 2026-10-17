@@ -16,6 +16,7 @@ export function hasProductWord(text) {
 
 export function evaluate(answers) {
   const dims = {}; for (const k in DIMS) dims[k] = { pts: 0, max: 0 };
+  const detail = {}; for (const k in DIMS) detail[k] = [];
   const flags = new Map();
   let unsure = 0;
   const fire = (id, q, sure) => { const cur = flags.get(id); if (!cur) flags.set(id, { sure, q }); else if (sure) cur.sure = true; };
@@ -32,11 +33,17 @@ export function evaluate(answers) {
         else if (q.id === 'types') { pts = 2; }
         else pts = Math.min(...sel.map((o) => o.s));
       }
-      if (q.dim) { dims[q.dim].pts += pts; dims[q.dim].max += max; }
+      if (q.dim) {
+        dims[q.dim].pts += pts; dims[q.dim].max += max;
+        const labels = q.options.filter((o) => chosen.includes(o.v)).map((o) => o.l);
+        detail[q.dim].push({ q: q.id, label: q.label.replace(/\?$/, ''), answer: labels.join('; '), pts, max });
+      }
     } else if (q.type === 'textarea' && q.emptyFlag) {
       const t = (v || '').trim(); dims[q.dim].max += 4;
+      let pts = 0;
       if (t.length < 25 || /can't say|cannot say|not sure what done|don't know what done|no idea what done/i.test(t)) fire(q.emptyFlag, q.id, true);
-      else dims[q.dim].pts += (/\d/.test(t) ? 4 : 3);
+      else { pts = (/\d/.test(t) ? 4 : 3); dims[q.dim].pts += pts; }
+      detail[q.dim].push({ q: q.id, label: q.label.replace(/\?$/, ''), answer: t.length < 25 ? 'Too short to score' : (/\d/.test(t) ? 'Written, with a number' : 'Written, no number'), pts, max: 4 });
     }
   }
   const low = (answers.problem || '').toLowerCase();
@@ -73,7 +80,8 @@ export function evaluate(answers) {
   const high = list.filter((f) => f.s === 'high').length;
   let verdict = overall >= 75 ? 'ok' : overall >= 50 ? 'warn' : 'bad';
   if (high >= 4) verdict = 'bad'; else if (high >= 2 && verdict === 'ok') verdict = 'warn';
-  return { scores, overall, flags: list, high, unsure, verdict, top: list.slice(0, 3), rest: list.slice(3, 8), noted: list.slice(8) };
+  const flagQ = {}; for (const [k, m] of flags.entries()) flagQ[k] = m.q;
+  return { scores, overall, detail, flagQ, flags: list, high, unsure, verdict, top: list.slice(0, 3), rest: list.slice(3, 8), noted: list.slice(8) };
 }
 
 function adjust(k, a) {
@@ -196,4 +204,28 @@ export function buildBrief(r, A) {
   const c = [A.contactName, A.contactRole, A.contactEmail].filter(Boolean); if (c.length) { L.push('### Contact'); L.push(`- ${c.join(' · ')}`); L.push(''); }
   L.push(`_Prepared by the organization with the ${CONFIG.title} (${CONFIG.consultantName}). A starting point for a conversation, not a specification, and not legal or privacy advice._`);
   return L.join('\n');
+}
+
+/* Per-area explanations: why the score is what it is, one line to improve it, and a few more on request. */
+export const DIM_ADVICE = {
+  lead: { line: 'Name the one person who can say yes to the money and the scope.', more: ['Write down how long a decision takes and whether it needs a meeting. If a board or council approves, get the item on the next agenda before scoping starts.', 'A sponsor who gives it a few hours a month is worth more than one who signs and disappears.'] },
+  outcome: { line: 'Write one sentence that says what people will be able to do when it is done.', more: ['Add a second sentence on how you would know it worked. A number helps: hours saved, days to approve, requests visible.', 'Keep product names out of that sentence; they go in the brief as a preference, not as the goal.'] },
+  money: { line: 'Get the figure approved, or at least ranged, before you ask for quotes.', more: ['Budget beyond the software: setup, data clean-up, training, and the cost in year two.', 'If the money is a grant with a spend-by date, say so up front; it changes how the work is shaped.'] },
+  time: { line: 'Check whether the date is real or a preference, and who loses hours to this.', more: ['Name the day-to-day owner and free up their time rather than adding it to a full job.', 'A hard date with no owner is the most common way a small project slips.'] },
+  data: { line: 'Find out where the data lives, who holds the admin accounts, and whether you can export it.', more: ['A short data check before the project is cheaper than discovering the state of it halfway through.', 'If the person who understood the old system has left, write down what nobody else can get into.'] },
+  rules: { line: 'List the personal information involved and check which rules apply before you buy.', more: ['Privacy, records retention, accessibility and procurement rules each change what can be bought and how.', 'A one-page privacy assessment is a day of work, not a project, and it saves rework later.'] },
+  tech: { line: 'Prove the backups restore, close open remote access, and put MFA on every admin account.', more: ['These are fixes rather than projects. Do them first so the new work does not inherit the old risks.', 'Anything out of support is a cost line, and usually the thing that sets the real deadline.'] },
+};
+
+export function dimExplain(r, k, answers) {
+  const rows = r.detail[k] || [];
+  const gaps = rows.filter((x) => x.pts === 0);
+  const partial = rows.filter((x) => x.pts > 0 && x.pts < x.max);
+  const full = rows.filter((x) => x.pts === x.max);
+  const fixes = r.flags.filter((f) => rows.some((x) => x.q === r.flagQ[f.id])).slice(0, 3).map((f) => fx(FLAGS[f.id].d, answers));
+  let brief;
+  if (!gaps.length && !partial.length) brief = `Full marks on all ${rows.length} answer${rows.length === 1 ? '' : 's'} here.`;
+  else if (!gaps.length) brief = `${partial.length} of ${rows.length} answers here were part-way there; none were gaps.`;
+  else brief = `${gaps.length} of ${rows.length} answers here were gaps or “not sure”${partial.length ? `, ${partial.length} part-way` : ''}.`;
+  return { rows, gaps, partial, full, fixes, brief };
 }

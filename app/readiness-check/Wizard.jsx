@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { CONFIG, FLAGS, DIMS, EXCLUSIVE, isPub, isIndig } from './data';
-import { evaluate, visibleSteps, visibleQs, visibleOpts, fx, hasProductWord, sevLabel, VERDICTS, nextStep, VENDOR_QUESTIONS, buildBrief, slug } from './engine';
+import { evaluate, visibleSteps, visibleQs, visibleOpts, fx, hasProductWord, sevLabel, VERDICTS, nextStep, VENDOR_QUESTIONS, buildBrief, slug, dimExplain, DIM_ADVICE } from './engine';
 
 const KEY = 'prc.answers.v3';
 const STEP_KEY = 'prc.step.v3';
@@ -180,6 +180,7 @@ function Results({ answers, set, steps, onBack, onReset }) {
   const brief = useMemo(() => buildBrief(r, answers), [r, answers]);
   const V = VERDICTS[r.verdict];
   const [grown, setGrown] = useState(false);
+  const [openDim, setOpenDim] = useState(null);
   const [status, setStatus] = useState('');
   useEffect(() => { const t = requestAnimationFrame(() => requestAnimationFrame(() => setGrown(true))); return () => cancelAnimationFrame(t); }, []);
   useEffect(() => { if (!status) return; const t = setTimeout(() => setStatus(''), 5000); return () => clearTimeout(t); }, [status]);
@@ -212,20 +213,14 @@ function Results({ answers, set, steps, onBack, onReset }) {
         <div className="rc-dims">
           {Object.keys(DIMS).map((k, i) => {
             const s = r.scores[k]; if (s === null) return null;
-            const tone = s >= 75 ? 'ok' : s >= 50 ? 'warn' : 'bad';
-            return (
-              <div className="rc-dim" key={k}>
-                <div className="rc-dim-l"><span>{DIMS[k]}</span><b>{s}%</b></div>
-                <div className="rc-bar"><i className={tone} style={{ width: grown ? `${s}%` : 0, transitionDelay: `${i * 70}ms` }} /></div>
-              </div>
-            );
+            return <DimRow key={k} k={k} s={s} i={i} r={r} answers={answers} grown={grown} open={openDim === k} onToggle={() => setOpenDim(openDim === k ? null : k)} />;
           })}
           <div className="rc-dim rc-dim-total">
             <div className="rc-dim-l"><span>Overall</span><b>{r.overall}%</b></div>
             <div className="rc-bar"><i className={r.verdict} style={{ width: grown ? `${r.overall}%` : 0, transitionDelay: '520ms' }} /></div>
           </div>
         </div>
-        <p className="rc-help">Each percentage compares your answers in that area with a fully prepared organisation; 0% means every answer there was a gap or “not sure”. Areas with too few questions on your path are not shown.</p>
+        <p className="rc-help">Each percentage compares your answers in that area with a fully prepared organisation; 0% means every answer there was a gap or “not sure”. Areas with too few questions on your path are not shown. Hover a score for why; click it for what would move it.</p>
       </section>
 
       <section className="rc-block">
@@ -303,5 +298,48 @@ function Flag({ f, n, answers }) {
       <p className="rc-flag-w">{fx(F.w, answers)}</p>
       <p className="rc-flag-d">{fx(F.d, answers)}</p>
     </li>
+  );
+}
+
+function DimRow({ k, s, i, r, answers, grown, open, onToggle }) {
+  const tone = s >= 75 ? 'ok' : s >= 50 ? 'warn' : 'bad';
+  const e = dimExplain(r, k, answers);
+  const advice = DIM_ADVICE[k];
+  const id = `dim-${k}`;
+  return (
+    <div className={`rc-dim rc-dim-x${open ? ' open' : ''}`}>
+      <button type="button" className="rc-dim-btn" aria-expanded={open} aria-controls={id} aria-describedby={`${id}-tip`} onClick={onToggle}>
+        <div className="rc-dim-l"><span>{DIMS[k]}</span><b>{s}%</b></div>
+        <div className="rc-bar"><i className={tone} style={{ width: grown ? `${s}%` : 0, transitionDelay: `${i * 70}ms` }} /></div>
+        <span className="rc-tipbox" role="tooltip" id={`${id}-tip`}>
+          <span>{e.brief}</span>
+          <span className="rc-tip-more">{open ? 'Click to close' : 'Click for what would move it'}</span>
+        </span>
+      </button>
+      <div className="rc-dim-detail" id={id} hidden={!open}>
+        <div className="rc-dim-cols">
+          <div>
+            <p className="rc-dim-k">Why {s}%</p>
+            <p className="rc-dim-legend"><span><i className="rc-dim-dot" style={{ background: 'var(--accent)' }} /> full marks</span><span><i className="rc-dim-dot" style={{ background: 'var(--ink-3)' }} /> part-way</span><span><i className="rc-dim-dot gap" /> gap or not sure</span></p>
+            <ul className="rc-dim-rows">
+              {e.rows.map((x) => (
+                <li key={x.q} className={x.pts === 0 ? 'gap' : x.pts < x.max ? 'part' : 'full'}>
+                  <span className="rc-dim-dot" aria-hidden="true" />
+                  <span><span className="rc-dim-q">{x.label}:</span> {x.answer}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <p className="rc-dim-k">What would move it</p>
+            <p className="rc-dim-line">{s === 100 ? 'Nothing here is holding you back. Keep it written down so it survives a change of people.' : advice.line}</p>
+            <ul className="rc-dim-rows plain">
+              {e.fixes.map((f) => <li key={f}><span className="rc-dim-dot fix" aria-hidden="true" /><span>{f}</span></li>)}
+              {s < 100 && advice.more.map((m) => <li key={m}><span className="rc-dim-dot fix" aria-hidden="true" /><span>{m}</span></li>)}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
